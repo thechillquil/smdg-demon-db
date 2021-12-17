@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Demon Compendium</title>
+        <script type="text/javascript">
+            function confirmDelete(e) {
+                console.log("handler called")
+                var doDelete = window.confirm("Are you sure you want to delete all demons?");
+                console.log("prompt answered:" + doDelete);
+                if (!doDelete) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            }
+
+            function showMe(e) {
+                alert("hello");
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Shin Megami Dice Game Demon Compendium</h1>
+        <p>
+            Currently known demons:
+            <table>
+                <thead>
+                    <tr>
+                        <th>Demon</th>
+                        <th>Level</th>
+                        <th>Evolves To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach((item)=>{ %>
+                        <tr>
+                            <td><a href="/compendium/demon/<%=item.name%>"><%= item.name %></a></td>
+                            <td><%=item.level%></td>
+                            <td>
+                                <%if (item.evolvesTo !== null) {%>
+                                    <a href="/compendium/demon/<%=item.evolvesTo%>"><%=item.evolvesTo%></a>
+                                <%} else {%>
+                                    -
+                                <%}%>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </p>
+        <p>
+            Upload new data:
+            <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
+                <input type="file" name="uploadFile">
+                <input type="submit" value="Upload">
+            </form>                    
+        </p>
+        <p>
+            <a href="/compendium/demons/deleteall" onclick="confirmDelete(event)">Delete all demons</a>
+        </p>
+    </body>
+</html>
