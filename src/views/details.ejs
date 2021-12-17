@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Demon Compendium Details</title>
+    </head>
+    <body>
+        <a href="/compendium/">Back to list</a>
+        <h1><%=data.name%></h1>
+        <div>
+            Level <%=data.level%>, <%=data.arcana%>, <%=data.alignment%>, <%=data.size%> (<%=data.personality%>)
+        </div>
+        <div>
+            Hit Points <%=data.HP%><br/>
+            Spell Points <%=data.SP%><br/>
+            Movement <%=data.movement%> ft.
+            <%if (data.movementModifier !== "") {%>
+                <%=" (" + data.movementModifier + ")"%>
+            <%}%><br/>
+            Itemized Into <%=data.itemizedInto%> (<%=data.itemizedCategory%>)
+        </div>
+        <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>KNO<br/><%=data.knowledge%></td>
+                        <td>GUT<br/><%=data.guts%></td>
+                        <td>PRO<br/><%=data.proficiency%></td>
+                        <td>EMP<br/><%=data.empathy%></td>
+                        <td>CHA<br/><%=data.charm%></td>
+                    </tr>
+                    <tr>
+                        <td>STR<br/><%=data.strength%></td>
+                        <td>MAG<br/><%=data.magic%></td>
+                        <td>END<br/><%=data.endurance%></td>
+                        <td>AGI<br/><%=data.agility%></td>
+                        <td>LUK<br/><%=data.luck%></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            WEAK 
+            <%if (data.weaknesses.length == 0) {%>
+                <%="None"%>
+            <%} else {%>
+                <%=data.weaknesses.join(", ")%>
+            <%}%><br/>
+            RESIST 
+            <%if (data.resistances.length == 0) {%>
+                <%="None"%>
+            <%} else {%>
+                <%=data.resistances.join(", ")%>
+            <%}%><br/>
+            BLOCK 
+            <%if (data.blocks.length == 0) {%>
+                <%="None"%>
+            <%} else {%>
+                <%=data.blocks.join(", ")%>
+            <%}%><br/>
+            REPEL 
+            <%if (data.repels.length == 0) {%>
+                <%="None"%>
+            <%} else {%>
+                <%=data.repels.join(", ")%>
+            <%}%><br/>
+            DRAIN 
+            <%if (data.drains.length == 0) {%>
+                <%="None"%>
+            <%} else {%>
+                <%=data.drains.join(", ")%>
+            <%}%><br/>
+        </div>
+        <div>
+            <% data.traits.forEach((trait)=>{ %>
+                <p><%-trait.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></p>
+            <% }); %>
+        </div>
+        <div>
+            Skills<br/>
+            <% data.skills.forEach((skill)=>{ %>
+                <p><%-skill.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></p>
+            <% }); %>
+        </div>
+        <div>
+            <hr/>
+            <p><%-data.background.replaceAll("\n", "</p><p>").replaceAll("\u000b","</p><p>");%></p>
+        </div>
+    </body>
+</html>
