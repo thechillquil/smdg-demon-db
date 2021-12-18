@@ -31,8 +31,18 @@ var DemonSchema = new Schema({
   blocks: [String],
   repels: [String],
   drains: [String],
-  traits: [String],
-  skills: [String],
+  traits: [
+    {
+      name: String,
+      description: String
+    }
+  ],
+  skills: [
+    {
+      name: String,
+      description: String
+    }
+  ],
   background: String
 });
 
