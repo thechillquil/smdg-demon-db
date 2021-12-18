@@ -73,13 +73,13 @@
         </div>
         <div>
             <% data.traits.forEach((trait)=>{ %>
-                <p><%-trait.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></p>
+                <p><span><%=trait.name%>.</span>&nbsp;<span><%-trait.description.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></span></p>
             <% }); %>
         </div>
         <div>
             Skills<br/>
             <% data.skills.forEach((skill)=>{ %>
-                <p><%-skill.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></p>
+                <p><span><%=skill.name%>.</span>&nbsp;<span><%-skill.description.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></span></p>
             <% }); %>
         </div>
         <div>
