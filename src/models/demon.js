@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var DemonSchema = new Schema({
   name: {type: String, required: true, unique: true},
+  displayName: String,
   level: Number,
   arcana: String,
   alignment: String,
@@ -44,6 +45,18 @@ var DemonSchema = new Schema({
     }
   ],
   background: String
+},
+{
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+}
+);
+
+DemonSchema.virtual("evolvesToReference", {
+  ref: "Demon",
+  localField: "evolvesTo",
+  foreignField: "name",
+  justOne: true
 });
 
 module.exports = mongoose.model("Demon", DemonSchema);

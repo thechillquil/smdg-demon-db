@@ -6,7 +6,7 @@
     </head>
     <body>
         <a href="/compendium/">Back to list</a>
-        <h1><%=data.name%></h1>
+        <h1><%=data.displayName%></h1>
         <div>
             Level <%=data.level%>, <%=data.arcana%>, <%=data.alignment%>, <%=data.size%> (<%=data.personality%>)
         </div>
@@ -73,18 +73,18 @@
         </div>
         <div>
             <% data.traits.forEach((trait)=>{ %>
-                <p><span><%=trait.name%>.</span>&nbsp;<span><%-trait.description.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></span></p>
+                <p><span><%=trait.name%>.</span>&nbsp;<span><%-trait.description.replaceAll("\n", "<br/>");%></span></p>
             <% }); %>
         </div>
         <div>
             Skills<br/>
             <% data.skills.forEach((skill)=>{ %>
-                <p><span><%=skill.name%>.</span>&nbsp;<span><%-skill.description.replaceAll("\n", "<br/>").replaceAll("\u000b", "<br/>");%></span></p>
+                <p><span><%=skill.name%>.</span>&nbsp;<span><%-skill.description.replaceAll("\n", "<br/>");%></span></p>
             <% }); %>
         </div>
         <div>
             <hr/>
-            <p><%-data.background.replaceAll("\n", "</p><p>").replaceAll("\u000b","</p><p>");%></p>
+            <p><%-data.background.replaceAll("\n\n", "</p><p>");%></p>
         </div>
     </body>
 </html>
