@@ -48,8 +48,14 @@ exports.details = async function(req, res) {
 };
 
 // GET edit form for specific demon by name
-exports.edit = function(req, res) {
-    res.send("NOT YET IMPLMENTED: Demon details for " + req.params.name);
+exports.edit = async function(req, res) {
+    let demon = await(findDemon(req.params.name));
+    if (demon == null) {
+        res.send("Demon " + req.params.name + " not found");
+    } else {
+        let evolution = await(getEvolutions(demon.level));
+        res.render("edit", {data: demon, evolutionTargets: evolution});
+    }
 };
 
 // POST edit form for specific demon by name
@@ -84,19 +90,25 @@ exports.purge = async function(req, res) {
 };
 
 async function getDemons(filter) {
-    return await Demon.find(filter).sort({level: "asc", name: "asc"}).lean();
+    return await Demon.find(filter).sort({level: "asc", name: "asc"}).lean().populate({
+        path: "evolvesToReference", select: "displayName name"
+    });
 };
 
 async function findDemon(name) {
     return await Demon.findOne({name: name}).lean();
-}
+};
+
+async function getEvolutions(level) {
+    return await Demon.find({level: {$gt: level}}, "name level").sort({level: "asc", name: "asc"}).lean();
+};
 
 async function createDemon(demonToCreate) {
     await Demon.create(demonToCreate, function(err, demon) {
         if (err) return handleError(err);
     });
-}
+};
 
 async function deleteAllDemons() {
     return await Demon.deleteMany({});
-}
+};

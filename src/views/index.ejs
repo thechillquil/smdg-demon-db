@@ -34,11 +34,11 @@
                 <tbody>
                     <% data.forEach((item)=>{ %>
                         <tr>
-                            <td><a href="/compendium/demon/<%=item.name%>"><%= item.name %></a></td>
+                            <td><a href="/compendium/demon/<%=item.name%>"><%= item.displayName %></a></td>
                             <td><%=item.level%></td>
                             <td>
                                 <%if (item.evolvesTo !== null) {%>
-                                    <a href="/compendium/demon/<%=item.evolvesTo%>"><%=item.evolvesTo%></a>
+                                    <a href="/compendium/demon/<%=item.evolvesTo%>"><%=item.evolvesToReference.displayName%></a>
                                 <%} else {%>
                                     -
                                 <%}%>
