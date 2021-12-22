@@ -5,18 +5,35 @@
         <title>Demon Compendium</title>
         <script type="text/javascript">
             function confirmDelete(e) {
-                console.log("handler called")
+                e.preventDefault();
                 var doDelete = window.confirm("Are you sure you want to delete all demons?");
-                console.log("prompt answered:" + doDelete);
-                if (!doDelete) {
-                    e.stopPropagation();
-                    e.preventDefault();
+                if (doDelete) {
+                    var success = false;
+                    fetch("/api/demons", {
+                        method: "delete",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: "{}"
+                    }).then(response => {
+                        if (response.ok) {
+                            success = true;
+                        }
+                        return response.json();
+                   }).then(data => {
+                        console.log(data);
+                        if (success) {
+                            window.location = e.target.href;
+                        }
+                    });
                 }
             }
 
-            function showMe(e) {
-                alert("hello");
+            function addListeners() {
+                document.getElementById("deleteAll").addEventListener("click", (e) => { confirmDelete(e); });
             }
+
+            window.onload = addListeners;
         </script>
     </head>
     <body>
@@ -56,7 +73,10 @@
             </form>                    
         </p>
         <p>
-            <a href="/compendium/demons/deleteall" onclick="confirmDelete(event)">Delete all demons</a>
+            <a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a>
+        </p>
+        <p>
+            <a id="createNew" href="/compendium/demon/new">Create new demon</a>
         </p>
     </body>
 </html>

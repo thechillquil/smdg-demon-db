@@ -3,9 +3,47 @@
     <head>
         <meta charset="utf-8"/>
         <title>Demon Compendium Details</title>
+        <script type="text/javascript">
+            function confirmDelete(e) {
+                e.preventDefault();
+                var doDelete = window.confirm("Are you sure you want to delete?");
+                if (doDelete) {
+                    let success = false;
+                    fetch("/api/demon/<%=data.name%>", {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: "{}"
+                    }).then(response => {
+                        if (response.ok) {
+                            success = true;
+                        }
+                        return response.json();
+                    }).then(data => {
+                        console.log(data);
+                        if (success) {
+                            window.location = e.target.href;
+                        }
+                    }).catch((error) => {
+                        console.log("error " + error);
+                    });
+                }
+            }
+
+            function addListeners() {
+                document.getElementById("delete").addEventListener("click", (e) => { confirmDelete(e); });
+            }
+
+            window.onload = addListeners;
+        </script>
     </head>
     <body>
-        <a href="/compendium/">Back to list</a>
+        <a href="/compendium">Back to list</a>
+        &nbsp;
+        <a href="/compendium/demon/<%=data.name%>/edit">Edit Demon</a>
+        &nbsp;
+        <a id="delete" href="/compendium">Delete Demon</a>
         <h1><%=data.displayName%></h1>
         <div>
             Level <%=data.level%>, <%=data.arcana%>, <%=data.alignment%>, <%=data.size%> (<%=data.personality%>)

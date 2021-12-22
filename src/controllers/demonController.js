@@ -2,7 +2,8 @@ var Demon = require("../models/demon");
 
 // GET list of all demons
 exports.all =  async function(req, res) {
-    let demons = await getDemons({});
+    let demons = await getDemons();
+    console.log(JSON.stringify(demons));
     res.send(JSON.stringify(demons));
 };
 
@@ -10,30 +11,53 @@ exports.all =  async function(req, res) {
 exports.retrieve = async function(req, res) {
     let demon = await(findDemon(req.params.name));
     if (demon == null) {
-        res.send("{\"error\": \"Demon " + req.params.name + " not found\"}");
+        res.status(404).send("{\"error\": \"Demon " + req.params.name + " not found\"}");
     } else {
         res.send(JSON.stringify(demon));
     }
 };
 
 // POST create new demon
-exports.create = function(req, res) {
-    res.send("NOT YET IMPLMENTED: Create demon");
+exports.create = async function(req, res) {
+    try {
+        let demon = new Demon(req.body);
+        if (demon.name === "") {
+            res.status(400).send("{\"error\": \"New demon not created: Empty demon name.\"}");
+        }
+        let exists = (await Demon.find({name: req.body.name})) !== null;
+        if (exists) {
+            res.status(400).send("{\"error\": \"Demon '" + req.body.name + "' already exists.\"}");
+        } else {
+            await demon.save();
+            res.send("{\"status\": \"successful\"}");
+        }
+    } catch (err) {
+        res.status(400).send("{\"error\": \"New demon not created\"}");
+    }
 };
 
 // DELETE delete demon
-exports.delete = function(req, res) {
-    res.send("NOT YET IMPLMENTED: Delete demon " + req.params.name);
+exports.delete = async function(req, res) {
+    await Demon.findOneAndDelete({name: req.params.name});
+    res.send("{\"status\": \"successful\"}");
 };
 
 // PUT update demon
-exports.update = function(req, res) {
-    res.send("NOT YET IMPLEMENTED: Update demon: " + req.params.name);
+exports.update = async function(req, res) {
+    if (!req.body) {
+        res.status(400).send("{\"error\": \"No request body\"}")
+    }
+    let demon = await Demon.findOneAndUpdate({name:req.params.name}, req.body);
+    if (demon == null) {
+        res.status(404).send("{\"error\": \"Demon " + req.params.name + " not found\"}");
+    } else {
+        res.send("{\"status\": \"successful\"}");
+    }
 };
 
 // GET list of all demons
 exports.list =  async function(req, res) {
-    let demons = await getDemons({});
+    let demons = await getDemons();
     res.render("index", { data: demons });
 };
 
@@ -58,10 +82,11 @@ exports.edit = async function(req, res) {
     }
 };
 
-// POST edit form for specific demon by name
-exports.commit = function(req, res) {
-    res.send("NOT YET IMPLMENTED: Demon details for " + req.params.name);
-};
+exports.default = async function(req, res) {
+    let demon = new Demon();
+    let evolution = await(getEvolutions(0));
+    res.render("edit", {data: demon, evolutionTargets: evolution});
+}
 
 // POST bulk create demons via JSON file upload
 exports.upload = function(req, res) {
@@ -85,14 +110,14 @@ exports.upload = function(req, res) {
 
 // POST build delete all demons
 exports.purge = async function(req, res) {
-    let deleted = await deleteAllDemons();
+    let deleted = await Demon.deleteMany({});
     res.render("deleteAllComplete", { data: deleted.deletedCount });
 };
 
-async function getDemons(filter) {
-    return await Demon.find(filter).sort({level: "asc", name: "asc"}).lean().populate({
+async function getDemons() {
+    return await Demon.find().sort({level: "asc", name: "asc"}).populate({
         path: "evolvesToReference", select: "displayName name"
-    });
+    }).lean();
 };
 
 async function findDemon(name) {
@@ -100,15 +125,11 @@ async function findDemon(name) {
 };
 
 async function getEvolutions(level) {
-    return await Demon.find({level: {$gt: level}}, "name level").sort({level: "asc", name: "asc"}).lean();
+    return await Demon.find({level: {$gt: level}}, "name displayName level").sort({level: "asc", name: "asc"}).lean();
 };
 
 async function createDemon(demonToCreate) {
     await Demon.create(demonToCreate, function(err, demon) {
         if (err) return handleError(err);
     });
-};
-
-async function deleteAllDemons() {
-    return await Demon.deleteMany({});
 };

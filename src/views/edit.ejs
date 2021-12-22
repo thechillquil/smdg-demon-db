@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Demon Compendium Details</title>
+        <script>
+            function addListeners() {
+                ["traits", "skills"].forEach(id => {
+                    document.getElementById(id + "Add").addEventListener("click", (e) => { addEditor(id); });
+                    var element = document.getElementById(id);
+                    element.querySelectorAll("button").forEach(button => {
+                        button.addEventListener("click", (e) => { deleteEditor(e); });
+                    });
+                });
+                document.getElementById("save").addEventListener("click", (e) => { submitChanges(e); });
+            }
+
+            window.onload = addListeners;
+        </script>
+    </head>
+    <body>
+        <%if (data.name === "") {
+            returnUrl = "/compendium";
+        } else {
+            returnUrl = "/compendium/demon/" + data.name;
+        }%>
+        <a id="save" href="<%=returnUrl%>">Save</a>&nbsp;<a href="<%=returnUrl%>">Cancel</a>
+        <%let skillTypes = [
+            "Physical",
+            "Gun",
+            "Fire",
+            "Ice",
+            "Electric",
+            "Wind",
+            "Psychic",
+            "Nuke",
+            "Bless",
+            "Curse",
+            "Almighty",
+            "Ailment",
+            "Healing",
+            "Support"
+        ];%>
+        <div>
+            <input id="name" value="<%=data.name%>" hidden />
+            <label for="displayName">Display Name:</label>&nbsp;<input id="displayName" value="<%=data.displayName%>" />
+        </div>
+        <div>
+            <label for="level">Level</label>
+            <input id="level" value="<%=data.level%>"/>, 
+            <label for="arcana">Arcana</label>
+            <select id="arcana">
+                <%let arcanaValues = [
+                    "Chariot",
+                    "Councillor",
+                    "Death",
+                    "Devil",
+                    "Emperor",
+                    "Faith",
+                    "Fool",
+                    "Fortune",
+                    "Hanged Man",
+                    "Hermit",
+                    "Hierophant",
+                    "Hunger",
+                    "Judgement",
+                    "Justice",
+                    "Lovers",
+                    "Magician",
+                    "Moon",
+                    "Priestess",
+                    "Star",
+                    "Strength",
+                    "Sun",
+                    "Temperance",
+                    "Tower",
+                    "World"
+                ];
+                arcanaValues.forEach(item => {
+                let selected = (data.arcana === item) ? " selected" : "";
+                %><option value="<%=item%>"<%=selected%>><%=item%></option><%
+                });%>
+            </select>, 
+            <label for="alignment">Alignment</label>
+            <select id="alignment">
+                <%let alignmentValues = [
+                    "Lawful Good",
+                    "Lawful Neutral",
+                    "Lawful Evil",
+                    "Neutral Good",
+                    "True Neutral",
+                    "Neutral Evil",
+                    "Chaotic Good",
+                    "Chaotic Neutral",
+                    "Chaotic Evil"
+                ];
+                alignmentValues.forEach(item => {
+                    let selected = (data.alignment === item) ? " selected" : "";
+                    %><option value="<%=item%>"<%=selected%>><%=item%></option><%
+                });%>
+            </select>, (<%=data.personality%>)
+            <label for="size">Size</label>
+            <select id="size">
+                <%let sizeValues = [
+                    "Tiny",
+                    "Small",
+                    "Medium",
+                    "Large",
+                    "Huge",
+                    "Gargantuan"
+                ];
+                sizeValues.forEach(item => {
+                    let selected = (data.size === item) ? " selected" : "";
+                    %><option value="<%=item%>"<%=selected%>><%=item%></option><%
+                });%>
+            </select>,
+            <label for="personality">Personality</label>
+            <input id="personality" value="<%=data.personality%>">
+        </div>
+        <div>
+            <label for="primaryElement">Primary Element</label>
+            <select id="primaryElement">
+                <%skillTypes.forEach(item => {
+                    let selected = (data.primaryElement === item) ? " selected" : "";
+                    %><option value="<%=item%>"<%=selected%>><%=item%></option><%
+                });%>
+            </select>
+            <label for="evolvesTo">Evolves To</label>
+            <select id="evolvesTo">
+                <option value="">-</option>
+                <%evolutionTargets.forEach(item => {
+                let selected = (data.evolvesTo === item.name) ? " selected" : "";
+                %><option value="<%=item.name%>"<%=selected%>><%=item.displayName%> (level <%=item.level%>)</option><%
+                });%>
+            </select>
+        </div>
+        <div>
+            <label for="HP">Hit Points</label><input id="HP" value="<%=data.HP%>"/><br/>
+            <label for="SP">Spell Points</label><input id="SP" value="<%=data.SP%>"/><br/>
+            <label for="movement">Movement</label><input id="movement" value="<%=data.movement%>"/> ft.&nbsp;
+            <label for="movementModifier">Modifier</label><input id="movementModifier" value="<%=data.movementModifier%>"/><br/>
+            <label for="itemizedInto">Itemized into</label><input id="itemizedInto" value="<%=data.itemizedInto%>"/>&nbsp;
+            (<label for="itemizedCategory">Category</label><input id="itemizedCategory" value="<%=data.itemizedCategory%>"/>)
+        </div>
+        <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label for="knowledge">KNO</label><br/><input id="knowledge" value="<%=data.knowledge%>"/></td>
+                        <td><label for="guts">GUT</label><br/><input id="guts" value="<%=data.guts%>"/></td>
+                        <td><label for="proficiency">PRO</label><br/><input id="proficiency" value="<%=data.proficiency%>"/></td>
+                        <td><label for="empathy">EMP</label><br/><input id="empathy" value="<%=data.empathy%>"/></td>
+                        <td><label for="charm">CHA</label><br/><input id="charm" value="<%=data.charm%>"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="strength">STR</label><br/><input id="strength" value="<%=data.strength%>"/></td>
+                        <td><label for="magic">MAG</label><br/><input id="magic" value="<%=data.magic%>"/></td>
+                        <td><label for="endurance">END</label><br/><input id="endurance" value="<%=data.endurance%>"/></td>
+                        <td><label for="agility">AGI</label><br/><input id="agility" value="<%=data.agility%>"/></td>
+                        <td><label for="luck">LUK</label><br/><input id="luck" value="<%=data.luck%>"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="weaknesses">
+            WEAK&nbsp;
+            <%skillTypes.forEach(item => {
+            let checked = data.weaknesses.includes(item) ? " checked" : "";
+            %><label for="weak<%=item%>"><%=item%></label><input id="weak<%=item%>" type="checkbox"<%=checked%> />&nbsp;<%
+            });%>
+        </div>
+        <div id="resistances">
+            RESIST&nbsp;
+            <%skillTypes.forEach(item => {
+            let checked = data.resistances.includes(item) ? " checked" : "";
+            %><label for="resist<%=item%>"><%=item%></label><input id="resist<%=item%>" type="checkbox"<%=checked%> />&nbsp;<%
+            });%>
+        </div>
+        <div id="blocks">
+            BLOCK&nbsp;
+            <%skillTypes.forEach(item => {
+            let checked = data.blocks.includes(item) ? " checked" : "";
+            %><label for="block<%=item%>"><%=item%></label><input id="block<%=item%>" type="checkbox"<%=checked%> />&nbsp;<%
+            });%>
+        </div>
+        <div id="repels">
+            REPEL&nbsp;
+            <%skillTypes.forEach(item => {
+            let checked = data.repels.includes(item) ? " checked" : "";
+            %><label for="repel<%=item%>"><%=item%></label><input id="repel<%=item%>" type="checkbox"<%=checked%> />&nbsp;<%
+            });%>
+        </div>
+        <div id="drains">
+            DRAIN&nbsp;
+            <%skillTypes.forEach(item => {
+            let checked = data.drains.includes(item) ? " checked" : "";
+            %><label for="drain<%=item%>"><%=item%></label><input id="drain<%=item%>" type="checkbox"<%=checked%> />&nbsp;<%
+            });%>
+        </div>
+        <div>
+            <span>Traits</span><span><button id="traitsAdd" type="button">Add</button></span><br/>
+            <div id="traits">
+                <% data.traits.forEach((trait)=>{ %>
+                    <div>
+                        <span><input value="<%=trait.name%>" /></span>
+                        <span><button type="button">Delete</button></span>
+                        <br/>
+                        <span>
+                            <textarea cols="120" rows="5">
+                                <%_ %><%=trait.description%><% _%>
+                            <%_ %></textarea>
+                        </span>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <div>
+            <span>Skills</span><span><button id="skillsAdd" type="button">Add</button></span><br/>
+            <div id="skills">
+                <% data.skills.forEach((skill)=>{ %>
+                    <div>
+                        <span><input value="<%=skill.name%>" /></span>
+                        <span><button type="button">Delete</button></span>
+                        <br/>
+                        <span>
+                            <textarea cols="120" rows="5">
+                                <%_ %><%=skill.description%><% _%>
+                            <%_ %></textarea>
+                        </span>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+            <div>
+            Background<br/>
+            <textarea id="background" cols=120 rows=10>
+                <%_ %><%=data.background%><% _%>
+            <%_ %></textarea>
+        </div>
+        <script>
+            function addEditor(parentId) {
+                var editorElement = document.createElement("div");
+
+                var nameSpan = document.createElement("span");
+                var nameInput = document.createElement("input");
+                nameSpan.appendChild(nameInput);
+                editorElement.appendChild(nameSpan);
+
+                var deleteButtonSpan = document.createElement("span");
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.addEventListener("click", deleteEditor);
+                deleteButton.setAttribute("type", "button");
+                deleteButtonSpan.appendChild(deleteButton);
+                editorElement.appendChild(deleteButtonSpan);
+
+                var lineBreak = document.createElement("br");
+                editorElement.appendChild(lineBreak);
+
+                var detailsSpan = document.createElement("span");
+                var detailTextArea = document.createElement("textArea");
+                detailTextArea.setAttribute("rows", "5");
+                detailTextArea.setAttribute("cols", "120");
+                detailsSpan.appendChild(detailTextArea);
+                editorElement.appendChild(detailsSpan);
+
+                document.getElementById(parentId).appendChild(editorElement);
+            }
+
+            function deleteEditor(event) {
+                event.target.parentElement.parentElement.remove();
+            }
+
+            function submitChanges(event) {
+                event.preventDefault();
+                let successUrl = event.target.href;
+                let displayName = document.getElementById("displayName").value;
+                if (displayName === "") {
+                    // TODO: Create error validation display
+                    return;
+                }
+                let demonName = document.getElementById("name").value;
+                let dataUrl = "/api/demon/" + demonName;
+                let dataMethod = "PUT";
+                if (demonName === "") {
+                    // We are creating a new demon
+                    demonName = displayName.replaceAll(" ", "-").trim().toLowerCase();
+                    dataMethod = "POST";
+                    dataUrl = "/api/demon";
+                }
+                
+                let data = {};
+                data["name"] = demonName;
+                data["displayName"] = displayName;
+                data["level"] = parseInt(document.getElementById("level").value);
+                data["arcana"] = document.getElementById("arcana").value;
+                data["alignment"] = document.getElementById("alignment").value;
+                data["size"] = document.getElementById("size").value;
+                data["personality"] = document.getElementById("personality").value;
+                data["primaryElement"] = document.getElementById("primaryElement").value;
+                data["evolvesTo"] = document.getElementById("evolvesTo").value === "" ? null : document.getElementById("evolvesTo").value;
+                data["HP"] = parseInt(document.getElementById("HP").value);
+                data["SP"] = parseInt(document.getElementById("SP").value);
+                data["movement"] = parseInt(document.getElementById("movement").value);
+                data["movementModifier"] = document.getElementById("movementModifier").value;
+                data["itemizedInto"] = document.getElementById("itemizedInto").value;
+                data["itemizedCategory"] = document.getElementById("itemizedCategory").value;
+                data["knowledge"] = parseInt(document.getElementById("knowledge").value);
+                data["guts"] = parseInt(document.getElementById("guts").value);
+                data["proficiency"] = parseInt(document.getElementById("proficiency").value);
+                data["empathy"] = parseInt(document.getElementById("empathy").value);
+                data["charm"] = parseInt(document.getElementById("charm").value);
+                data["strength"] = parseInt(document.getElementById("strength").value);
+                data["magic"] = parseInt(document.getElementById("magic").value);
+                data["endurance"] = parseInt(document.getElementById("endurance").value);
+                data["agility"] = parseInt(document.getElementById("agility").value);
+                data["luck"] = parseInt(document.getElementById("luck").value);
+
+                let weaknesses = [];
+                document.getElementById("weaknesses").querySelectorAll("input[type='checkbox']").forEach(element => {
+                    if (element.checked) {
+                        weaknesses.push(element.id.substring(4));
+                    }
+                });
+                data["weaknesses"] = weaknesses;
+
+                let resistances = [];
+                document.getElementById("resistances").querySelectorAll("input[type='checkbox']").forEach(element => {
+                    if (element.checked) {
+                        resistances.push(element.id.substring(6));
+                    }
+                });
+                data["resistances"] = resistances;
+
+                let blocks = [];
+                document.getElementById("blocks").querySelectorAll("input[type='checkbox']").forEach(element => {
+                    if (element.checked) {
+                        blocks.push(element.id.substring(5));
+                    }
+                });
+                data["blocks"] = blocks;
+
+                let repels = [];
+                document.getElementById("repels").querySelectorAll("input[type='checkbox']").forEach(element => {
+                    if (element.checked) {
+                        repels.push(element.id.substring(5));
+                    }
+                });
+                data["repels"] = repels;
+
+                let drains = [];
+                document.getElementById("drains").querySelectorAll("input[type='checkbox']").forEach(element => {
+                    if (element.checked) {
+                        drains.push(element.id.substring(5));
+                    }
+                });
+                data["drains"] = drains;
+
+                let traits = [];
+                document.getElementById("traits").querySelectorAll("div").forEach(element => {
+                    let trait = {};
+                    trait["name"] = element.querySelector("input").value;
+                    trait["description"] = element.querySelector("textarea").value;
+                    traits.push(trait);
+                });
+                data["traits"] = traits;
+
+                let skills = [];
+                document.getElementById("skills").querySelectorAll("div").forEach(element => {
+                    let skill = {};
+                    skill["name"] = element.querySelector("input").value;
+                    skill["description"] = element.querySelector("textarea").value;
+                    skills.push(skill);
+                });
+                data["skills"] = skills;
+                
+                data["background"] = document.getElementById("background").value;
+
+                let success = false;
+                fetch(dataUrl, {
+                    method: dataMethod,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => {
+                    console.log(response.status);
+                    if (response.ok) {
+                        success = true;
+                    }
+                    return response.json();
+                }).then(data => {
+                    console.log(data);
+                    if (success) {
+                        window.location = successUrl;
+                    }
+                }).catch((error) => {
+                    console.log("error " + error);
+                });
+            }
+        </script>
+    </body>
+</html>
