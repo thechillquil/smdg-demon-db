@@ -2,31 +2,31 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 var DemonSchema = new Schema({
-  name: {type: String, required: true, unique: true},
-  displayName: String,
-  level: Number,
-  arcana: String,
-  alignment: String,
-  size: String,
-  personality: String,
-  evolvesTo: String,
-  primaryElement: String,
-  HP: Number,
-  SP: Number,
-  movement: Number,
-  movementModifier: String,
-  itemizedInto: String,
-  itemizedCategory: String,
-  knowledge: Number,
-  guts: Number,
-  proficiency: Number,
-  empathy: Number,
-  charm: Number,
-  strength: Number,
-  magic: Number,
-  endurance: Number,
-  agility: Number,
-  luck: Number,
+  name: {type: String, required: true, unique: true, default: ""},
+  displayName: {type: String, default: ""},
+  level: {type: Number, default: 0},
+  arcana: {type: String, default: ""},
+  alignment: {type: String, default: ""},
+  size: {type: String, default: ""},
+  personality: {type: String, default: ""},
+  evolvesTo: {type: String, default: null},
+  primaryElement: {type: String, default: ""},
+  HP: {type: Number, default: 0},
+  SP: {type: Number, default: 0},
+  movement: {type: Number, default: 0},
+  movementModifier: {type: String, default: ""},
+  itemizedInto: {type: String, default: ""},
+  itemizedCategory: {type: String, default: ""},
+  knowledge: {type: Number, default: 0},
+  guts: {type: Number, default: 0},
+  proficiency: {type: Number, default: 0},
+  empathy: {type: Number, default: 0},
+  charm: {type: Number, default: 0},
+  strength: {type: Number, default: 0},
+  magic: {type: Number, default: 0},
+  endurance: {type: Number, default: 0},
+  agility: {type: Number, default: 0},
+  luck: {type: Number, default: 0},
   weaknesses: [String],
   resistances: [String],
   blocks: [String],
@@ -34,17 +34,17 @@ var DemonSchema = new Schema({
   drains: [String],
   traits: [
     {
-      name: String,
-      description: String
+      name: {type: String, default: ""},
+      description: {type: String, default: ""}
     }
   ],
   skills: [
     {
-      name: String,
-      description: String
+      name: {type: String, default: ""},
+      description: {type: String, default: ""}
     }
   ],
-  background: String
+  background: {type: String, default: ""}
 },
 {
   toJSON: { virtuals: true },

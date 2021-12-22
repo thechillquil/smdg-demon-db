@@ -3,20 +3,20 @@ var router = express.Router();
 const multer = require("multer");
 const uploader = multer({ storage: multer.memoryStorage({}) });
 
-var demon_controller = require("../controllers/demonController");
+var demonController = require("../controllers/demonController");
 
-router.get("/", demon_controller.list);
+router.get("/", demonController.list);
 
-router.get("/demon/:name", demon_controller.details);
+router.get("/demon/new", demonController.default);
 
-router.post("/demon", demon_controller.create);
+router.get("/demon/:name", demonController.details);
 
-router.post("/demon/:name/delete", demon_controller.delete);
+router.get("/demon/:name/edit", demonController.edit);
 
-router.post("/demon/:name/update", demon_controller.update);
+router.post("/demon/:name/delete", demonController.delete);
 
-router.post("/demon/upload", uploader.single('uploadFile'), demon_controller.upload);
+router.post("/demon/upload", uploader.single('uploadFile'), demonController.upload);
 
-router.get("/demons/deleteall", demon_controller.purge);
+router.get("/demons/deleteall", demonController.purge);
 
 module.exports = router;

@@ -8,6 +8,8 @@ var indexRouter = require("./routes/index");
 var apiRouter = require("./routes/api");
 var compendiumRouter = require("./routes/compendium");
 
+app.use(express.json());
+
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
 app.use("/compendium", compendiumRouter);

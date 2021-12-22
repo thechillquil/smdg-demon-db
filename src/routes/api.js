@@ -1,16 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-var demon_controller = require("../controllers/demonController");
+var demonController = require("../controllers/demonController");
 
-router.get("/demons", demon_controller.all);
+router.get("/demons", demonController.all);
 
-router.get("/demon/:name", demon_controller.retrieve);
+router.get("/demon/:name", demonController.retrieve);
 
-router.post("/demon", demon_controller.create);
+router.post("/demon", demonController.create);
 
-router.put("/demon/:name", demon_controller.update);
+router.put("/demon/:name", demonController.update);
 
-router.delete("/demon/:name", demon_controller.delete);
+router.delete("/demon/:name", demonController.delete);
+
+router.delete("/demons", demonController.purge);
 
 module.exports = router;
