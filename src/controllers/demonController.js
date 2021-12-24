@@ -1,10 +1,16 @@
 var Demon = require("../models/demon");
 
+var demonService = require("../services/demonService");
+
 // GET list of all demons
 exports.all =  async function(req, res) {
-    let demons = await getDemons();
-    console.log(JSON.stringify(demons));
-    res.send(JSON.stringify(demons));
+    let demons = await demonService.getAllDemons();
+    if ("error" in demons) {
+        res.status(404).send("No demons found");
+        return;
+    }
+
+    res.send(demons["demons"]);
 };
 
 // GET specific demon by name
@@ -57,8 +63,13 @@ exports.update = async function(req, res) {
 
 // GET list of all demons
 exports.list =  async function(req, res) {
-    let demons = await getDemons();
-    res.render("index", { data: demons });
+    let demons = await demonService.getAllDemons();
+    if ("error" in demons) {
+        res.status(404).send("No demons found");
+        return;
+    }
+
+    res.render("index", { data: demons["demons"] });
 };
 
 // GET show specific demon by name
@@ -89,17 +100,17 @@ exports.default = async function(req, res) {
 }
 
 // POST bulk create demons via JSON file upload
-exports.upload = function(req, res) {
+exports.upload = async function(req, res) {
     if (req.file) {
         uploadedObject = JSON.parse(req.file.buffer);
         if (uploadedObject.hasOwnProperty("demons")) {
             demonsToAdd = uploadedObject.demons;
-            console.log("Adding " + demonsToAdd.length + " demons");
-            demonsToAdd.forEach(async (demonToAdd )=> {
-                console.log("Creating " + demonToAdd.name);
-                await createDemon(demonToAdd);
-            });
-            res.render("uploadComplete", { data: demonsToAdd.length });
+            result = await demonService.bulkCreateDemons(demonsToAdd);
+            if ("error" in result) {
+                res.send("Error in creating demons");
+            } else {
+                res.render("uploadComplete", { data: result["data"] });
+            }
         } else {
             res.send("No demons in uploaded file.");
         }
@@ -110,14 +121,17 @@ exports.upload = function(req, res) {
 
 // POST build delete all demons
 exports.purge = async function(req, res) {
+    // let result = await demonService.deleteAllDemons();
+    // console.log(result);
+    // if ("error" in result) {
+    //     res.send("An error occurred deleting all demons");
+    //     return;
+    // } else {
+    //     console.log("should render me: " + result["data"]);
+    // }
+    // res.render("deleteAllComplete", { data: result["data"] });
     let deleted = await Demon.deleteMany({});
     res.render("deleteAllComplete", { data: deleted.deletedCount });
-};
-
-async function getDemons() {
-    return await Demon.find().sort({level: "asc", name: "asc"}).populate({
-        path: "evolvesToReference", select: "displayName name"
-    }).lean();
 };
 
 async function findDemon(name) {
@@ -126,10 +140,4 @@ async function findDemon(name) {
 
 async function getEvolutions(level) {
     return await Demon.find({level: {$gt: level}}, "name displayName level").sort({level: "asc", name: "asc"}).lean();
-};
-
-async function createDemon(demonToCreate) {
-    await Demon.create(demonToCreate, function(err, demon) {
-        if (err) return handleError(err);
-    });
 };
