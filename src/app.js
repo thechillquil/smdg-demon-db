@@ -10,6 +10,8 @@ var compendiumRouter = require("./routes/compendium");
 
 app.use(express.json());
 
+app.use("/public", express.static("./public"));
+
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
 app.use("/compendium", compendiumRouter);
