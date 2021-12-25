@@ -4,28 +4,25 @@
         <meta charset="utf-8"/>
         <title>Demon Compendium</title>
         <script type="text/javascript">
-            function confirmDelete(e) {
+            async function confirmDelete(e) {
                 e.preventDefault();
                 var doDelete = window.confirm("Are you sure you want to delete all demons?");
                 if (doDelete) {
-                    var success = false;
-                    fetch("/api/demons", {
-                        method: "delete",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: "{}"
-                    }).then(response => {
+                    try {
+                        var response = await fetch("/api/demons", {
+                            method: "delete",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: "{}"
+                        });
                         if (response.ok) {
-                            success = true;
+                            var data = await response.json();
+                            window.location = e.target.href + "?deletedCount=" + data["data"];
                         }
-                        return response.json();
-                   }).then(data => {
-                        console.log(data);
-                        if (success) {
-                            window.location = e.target.href;
-                        }
-                    });
+                    } catch (err) {
+                        console.log("error: " + err);
+                    }
                 }
             }
 

@@ -4,30 +4,25 @@
         <meta charset="utf-8"/>
         <title>Demon Compendium Details</title>
         <script type="text/javascript">
-            function confirmDelete(e) {
+            async function confirmDelete(e) {
                 e.preventDefault();
                 var doDelete = window.confirm("Are you sure you want to delete?");
                 if (doDelete) {
-                    let success = false;
-                    fetch("/api/demon/<%=data.name%>", {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: "{}"
-                    }).then(response => {
+                    try {
+                        var response = await fetch("/api/demon/<%=data.name%>", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: "{}"
+                        });
                         if (response.ok) {
-                            success = true;
-                        }
-                        return response.json();
-                    }).then(data => {
-                        console.log(data);
-                        if (success) {
+                            var data = await response.json();
                             window.location = e.target.href;
                         }
-                    }).catch((error) => {
-                        console.log("error " + error);
-                    });
+                    } catch (err) {
+                        console.log("error: " + err);
+                    }
                 }
             }
 
