@@ -271,7 +271,7 @@
                 event.target.parentElement.parentElement.remove();
             }
 
-            function submitChanges(event) {
+            async function submitChanges(event) {
                 event.preventDefault();
                 let successUrl = event.target.href;
                 let displayName = document.getElementById("displayName").value;
@@ -377,26 +377,21 @@
                 data["background"] = document.getElementById("background").value;
 
                 let success = false;
-                fetch(dataUrl, {
-                    method: dataMethod,
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                }).then(response => {
-                    console.log(response.status);
+                try {
+                    let response = await fetch(dataUrl, {
+                        method: dataMethod,
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    let jsonData = await response.json();
                     if (response.ok) {
-                        success = true;
-                    }
-                    return response.json();
-                }).then(data => {
-                    console.log(data);
-                    if (success) {
                         window.location = successUrl;
                     }
-                }).catch((error) => {
-                    console.log("error " + error);
-                });
+                } catch (err) {
+                    console.log("error: " + err);
+                }
             }
         </script>
     </body>

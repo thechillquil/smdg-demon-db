@@ -13,10 +13,8 @@ router.get("/demon/:name", demonController.details);
 
 router.get("/demon/:name/edit", demonController.edit);
 
-router.post("/demon/:name/delete", demonController.delete);
-
 router.post("/demon/upload", uploader.single('uploadFile'), demonController.upload);
 
-router.get("/demons/deleteall", demonController.purge);
+router.get("/demons/deleteall", demonController.deleteAllComplete);
 
 module.exports = router;

@@ -3,34 +3,44 @@
     <head>
         <meta charset="utf-8"/>
         <title>Demon Compendium</title>
+        <link rel="stylesheet" type="text/css" href="/public/smdg-db.css" />
         <script type="text/javascript">
-            function confirmDelete(e) {
+            async function confirmDelete(e) {
                 e.preventDefault();
                 var doDelete = window.confirm("Are you sure you want to delete all demons?");
                 if (doDelete) {
-                    var success = false;
-                    fetch("/api/demons", {
-                        method: "delete",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: "{}"
-                    }).then(response => {
+                    try {
+                        var response = await fetch("/api/demons", {
+                            method: "delete",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: "{}"
+                        });
                         if (response.ok) {
-                            success = true;
+                            var data = await response.json();
+                            window.location = e.target.href + "?deletedCount=" + data["data"];
                         }
-                        return response.json();
-                   }).then(data => {
-                        console.log(data);
-                        if (success) {
-                            window.location = e.target.href;
-                        }
-                    });
+                    } catch (err) {
+                        console.log("error: " + err);
+                    }
                 }
+            }
+
+            function showUploadForm(e) {
+                e.preventDefault();
+                document.getElementById("uploadForm").style.display = "block";
+            }
+
+            function hideUploadForm(e) {
+                e.preventDefault();
+                document.getElementById("uploadForm").style.display = "none";
             }
 
             function addListeners() {
                 document.getElementById("deleteAll").addEventListener("click", (e) => { confirmDelete(e); });
+                document.getElementById("upload").addEventListener("click", (e) => { showUploadForm(e); });
+                document.getElementById("cancelUpload").addEventListener("click", (e) => { hideUploadForm(e); });
             }
 
             window.onload = addListeners;
@@ -38,7 +48,22 @@
     </head>
     <body>
         <h1>Shin Megami Dice Game Demon Compendium</h1>
-        <p>
+        <div>
+            <span><a id="createNew" href="/compendium/demon/new">Create new demon</a></span>&nbsp;
+            <span><a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a></span>&nbsp;
+            <span><a id="upload" href="">Upload new data</a>
+                <div id="uploadForm" class="form-popup">
+                    <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
+                        <input type="file" name="uploadFile" />
+                        <input type="submit" value="Upload" />
+                        <div>
+                            <a id="cancelUpload" href="">Cancel</a>
+                        </div>
+                    </form>                    
+                </div>
+            </span>
+       </div>
+       <div>
             Currently known demons:
             <table>
                 <thead>
@@ -64,19 +89,6 @@
                     <% }); %>
                 </tbody>
             </table>
-        </p>
-        <p>
-            Upload new data:
-            <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
-                <input type="file" name="uploadFile">
-                <input type="submit" value="Upload">
-            </form>                    
-        </p>
-        <p>
-            <a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a>
-        </p>
-        <p>
-            <a id="createNew" href="/compendium/demon/new">Create new demon</a>
-        </p>
+        </div>
     </body>
 </html>
