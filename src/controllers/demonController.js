@@ -1,6 +1,23 @@
 const querystring = require("querystring");
 
 const demonService = require("../services/demonService");
+const userService = require("../services/userService");
+const config = require("../config");
+
+exports.login = function(req, res) {
+    res.render("login");
+};
+
+exports.logout = function(req, res) {
+    if ("smdg-db-token" in req.cookies) {
+        res.cookie("smdg-db-token", "", {
+            httpOnly: true,
+            secure: config.SMDG_RUNTIME_ENVIRONMENT !== "development",
+            expires: new Date(0)
+        });
+    }
+    res.send(JSON.stringify({"status": "success"}));
+};
 
 // GET list of all demons
 exports.list =  async function(req, res) {
@@ -10,7 +27,7 @@ exports.list =  async function(req, res) {
         return;
     }
 
-    res.render("index", { data: demons["demons"] });
+    res.render("index", { data: demons["demons"], user: req.user });
 };
 
 // GET show specific demon by name
@@ -20,7 +37,7 @@ exports.details = async function(req, res) {
         res.send(JSON.stringify(result));
         return;
     }
-    res.render("details", { data: result["demon"] });
+    res.render("details", { data: result["demon"], user: req.user });
 };
 
 // GET edit form for specific demon by name
@@ -32,13 +49,13 @@ exports.edit = async function(req, res) {
     }
     let demon = result["demon"];
     let evolution = await demonService.getDemonsByLevelRange(demon.level);
-    res.render("edit", {data: demon, evolutionTargets: evolution});
+    res.render("edit", { data: demon, evolutionTargets: evolution, user: req.user });
 };
 
-exports.default = async function(req, res) {
+exports.add = async function(req, res) {
     let demon = demonService.getNewDemon();
     let evolution = await demonService.getDemonsByLevelRange(0);
-    res.render("edit", {data: demon, evolutionTargets: evolution});
+    res.render("edit", { data: demon, evolutionTargets: evolution, user: req.user });
 };
 
 // POST bulk create demons via JSON file upload

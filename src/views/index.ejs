@@ -15,15 +15,38 @@
                             headers: {
                                 "Content-Type": "application/json"
                             },
+                            credentials: "same-origin",
                             body: "{}"
                         });
                         if (response.ok) {
                             var data = await response.json();
                             window.location = e.target.href + "?deletedCount=" + data["data"];
+                        } else {
+                            var data = await response.json();
+                            console.log(response);
+                            console.log(data);
                         }
                     } catch (err) {
                         console.log("error: " + err);
                     }
+                }
+            }
+
+            async function logout(e) {
+                e.preventDefault();
+                try {
+                    var response = await fetch("/compendium/logout", {
+                        method: "put",
+                        headers: {
+                            "Content-Type": "application.json",
+                            "body": "{}"
+                        }
+                    });
+                    if (response.ok) {
+                        window.location = e.target.href;
+                    }
+                } catch (err) {
+                    console.log("error: " + err);
                 }
             }
 
@@ -38,9 +61,13 @@
             }
 
             function addListeners() {
-                document.getElementById("deleteAll").addEventListener("click", (e) => { confirmDelete(e); });
-                document.getElementById("upload").addEventListener("click", (e) => { showUploadForm(e); });
-                document.getElementById("cancelUpload").addEventListener("click", (e) => { hideUploadForm(e); });
+                var logoutElement = document.getElementById("logout");
+                if (logoutElement) {
+                    logoutElement.addEventListener("click", (e) => { logout(e); });
+                    document.getElementById("deleteAll").addEventListener("click", (e) => { confirmDelete(e); });
+                    document.getElementById("upload").addEventListener("click", (e) => { showUploadForm(e); });
+                    document.getElementById("cancelUpload").addEventListener("click", (e) => { hideUploadForm(e); });
+                }
             }
 
             window.onload = addListeners;
@@ -48,22 +75,31 @@
     </head>
     <body>
         <h1>Shin Megami Dice Game Demon Compendium</h1>
+        <%if (user === null) {%>
+            <div>
+                <a id="login" href="/compendium/login">Login</a>
+            </div>
+        <%} else {%>
+            <div>
+                <span>Hello, <%=user.displayName%></span>&nbsp;<a id="logout" href="/compendium">Logout</a>
+            </div>
+            <div>
+                <span><a id="createNew" href="/compendium/demon/new">Create new demon</a></span>&nbsp;
+                <span><a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a></span>&nbsp;
+                <span><a id="upload" href="">Upload new data</a>
+                    <div id="uploadForm" class="form-popup">
+                        <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
+                            <input type="file" name="uploadFile" />
+                            <input type="submit" value="Upload" />
+                            <div>
+                                <a id="cancelUpload" href="">Cancel</a>
+                            </div>
+                        </form>                    
+                    </div>
+                </span>
+            </div>
+        <%}%>    
         <div>
-            <span><a id="createNew" href="/compendium/demon/new">Create new demon</a></span>&nbsp;
-            <span><a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a></span>&nbsp;
-            <span><a id="upload" href="">Upload new data</a>
-                <div id="uploadForm" class="form-popup">
-                    <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
-                        <input type="file" name="uploadFile" />
-                        <input type="submit" value="Upload" />
-                        <div>
-                            <a id="cancelUpload" href="">Cancel</a>
-                        </div>
-                    </form>                    
-                </div>
-            </span>
-       </div>
-       <div>
             Currently known demons:
             <table>
                 <thead>

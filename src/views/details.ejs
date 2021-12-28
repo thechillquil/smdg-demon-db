@@ -14,6 +14,7 @@
                             headers: {
                                 "Content-Type": "application/json"
                             },
+                            credentials: "same-origin",
                             body: "{}"
                         });
                         if (response.ok) {
@@ -27,18 +28,26 @@
             }
 
             function addListeners() {
-                document.getElementById("delete").addEventListener("click", (e) => { confirmDelete(e); });
+                var deleteElement = document.getElementById("delete")
+                if (deleteElement) {
+                    deleteElement.addEventListener("click", (e) => { confirmDelete(e); });
+                }
             }
 
             window.onload = addListeners;
         </script>
     </head>
     <body>
-        <a href="/compendium">Back to list</a>
-        &nbsp;
-        <a href="/compendium/demon/<%=data.name%>/edit">Edit Demon</a>
-        &nbsp;
-        <a id="delete" href="/compendium">Delete Demon</a>
+        <div>
+            <a href="/compendium">Back to list</a>
+        </div>
+        <%if (user !== null) {%>
+            <div>
+                <a href="/compendium/demon/<%=data.name%>/edit">Edit Demon</a>
+                &nbsp;
+                <a id="delete" href="/compendium">Delete Demon</a>
+            </div>
+        <%}%>    
         <h1><%=data.displayName%></h1>
         <div>
             Level <%=data.level%>, <%=data.arcana%>, <%=data.alignment%>, <%=data.size%> (<%=data.personality%>)
