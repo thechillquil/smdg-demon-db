@@ -19,7 +19,9 @@ router.delete("/demons", tokenAuthentication, userValidation, apiController.purg
 
 router.post("/login", apiController.login);
 
-router.post("/user/register", apiController.register);
+router.post("/user", apiController.register);
+
+router.put("/user/:userName", tokenAuthentication, apiController.updateUser);
 
 router.delete("/user/:userName", tokenAuthentication, apiController.deleteUser);
 

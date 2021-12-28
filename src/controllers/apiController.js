@@ -103,3 +103,13 @@ exports.register = async function(req, res) {
     }
     res.send(JSON.stringify(response));
 };
+
+exports.updateUser = async function(req, res) {
+    if (!req.body) {
+        res.status(400).send("{\"error\": \"No request body\"}");
+        return;
+    }
+    let response = await userService.update(req.params.userName, req.body);
+    console.log(response);
+    res.send(JSON.stringify(response));
+};

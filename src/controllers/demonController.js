@@ -1,7 +1,6 @@
 const querystring = require("querystring");
 
 const demonService = require("../services/demonService");
-const userService = require("../services/userService");
 const config = require("../config");
 
 exports.login = function(req, res) {

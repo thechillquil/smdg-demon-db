@@ -4,6 +4,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 
+exports.getAllUsers = async function() {
+    let allUsers = await User.find({}).lean();
+    return { "status": "success", "users": allUsers };
+}
+
 exports.getUserByUserName = async function(name) {
     let user = await User.findOne({userName: name}).lean();
     if (user === null) {
@@ -16,6 +21,20 @@ exports.delete = async function(name) {
     let result = await User.findOneAndDelete({userName: name});
     console.log(result);
     return { "status": "success" };
+};
+
+exports.newUser = async function() {
+    return new User();
+};
+
+exports.update = async function(userName, userData) {
+    console.log(userName, userData);
+    let user = await User.findOneAndUpdate({ userName: userName }, userData);
+    if (user === null) {
+        return { "error": "User " + userName + " not found" };
+    } else {
+        return { "status": "success" };
+    }
 };
 
 exports.create = async function(user) {
@@ -32,7 +51,8 @@ exports.create = async function(user) {
                 displayName: user.displayName || user.userName,
                 password: password,
                 email: user.email.toLowerCase(),
-                authorizationLevel: 1
+                isActive: true,
+                authorizationLevel: 0
             }
         );
         await newUser.save();
@@ -55,6 +75,7 @@ exports.authenticate = async function(userName, password) {
             userName: user.userName,
             displayName: user.displayName,
             email: user.email,
+            isActive: user.isActive,
             authorizationLevel: user.authorizationLevel
         },
         config.SMDG_SECRET_KEY,

@@ -6,6 +6,7 @@ const config = require('./config');
 var indexRouter = require("./routes/index");
 var apiRouter = require("./routes/api");
 var compendiumRouter = require("./routes/compendium");
+var userRouter = require("./routes/users");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +19,7 @@ app.use("/public", express.static("./public"));
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
 app.use("/compendium", compendiumRouter);
+app.use("/users", userRouter);
 
 var mongoose = require("mongoose");
 const { urlencoded } = require('express');

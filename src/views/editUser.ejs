@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Edit User</title>
+        <script>
+            function addListeners() {
+                document.getElementById("save").addEventListener("click", (e) => { submitChanges(e); });
+            }
+
+            window.onload = addListeners;
+        </script>
+    </head>
+    <body>
+        <%let isCreating = data.userName === "";%>
+        <div>
+            <a id="save" href="/users">Save</a>&nbsp;<a href="/users">Cancel</a>
+        </div>
+        <div>
+            <%if (isCreating) {%>
+                <label for="userName">User Name:</label>&nbsp;<input id="userName" />
+            <%} else {%>
+                <input id="userName" value="<%=data.userName%>" hidden />
+                <span>User Name:</span>&nbsp;<span><%=data.userName%></span>
+            <%}%>
+        </div>
+        <div>
+            <label for="displayName">Display Name:</label>&nbsp;<input id="displayName" value="<%=data.displayName%>" />
+        </div>
+        <div>
+            <%if (isCreating) {%>
+                <label for="password">Password:</label>&nbsp;<input id="password" type="password" /><br/>
+                <label for="confirmPassword">Confirm Password:</label>&nbsp;<input id="confirmPassword" type="password" />
+            <%} else {%>
+                <input id="password" value="<%=data.password%>" />
+            <%}%>    
+        </div>
+        <div>
+            <label for="email">Email Address:</label>&nbsp;<input id="email" value="<%=data.email%>" />
+        </div>
+        <%let isHidden = isCreating ? " hidden" : ""%>
+        <div<%=isHidden%>>
+            <label for="authorizationLevel">Authorization Level</label>&nbsp;
+            <select id="authorizationLevel">
+                <%let authLevels = ["Guest", "Editor", "Administrator"];
+                for (var i = 0; i < authLevels.length; i++) {
+                    let selected = (data.authorizationLevel === authLevels[i]) ? " selected" : "";
+                    %><option value="<%=i%>"<%=selected%>><%=authLevels[i]%></option><%
+                }%>
+            </select>
+        </div>
+        <div<%=isHidden%>>
+            <%let isChecked = data.isActive ? " checked" : "";%>
+            <label for="isActive">Is active?</label><input id="isActive" type="checkbox"<%=isChecked%> />
+        </div>
+        <script>
+            async function submitChanges(event) {
+                event.preventDefault();
+                let successUrl = event.target.href;
+                let displayName = document.getElementById("displayName").value;
+                if (displayName === "") {
+                    // TODO: Create error validation display
+                    return;
+                }
+                let userName = document.getElementById("userName").value;
+                <%if (isCreating) {%>
+                let dataMethod = "POST";
+                let dataUrl = "/api/user";
+                <%} else {%>
+                let dataUrl = "/api/user/" + userName;
+                let dataMethod = "PUT";
+                <%}%>
+                
+                let data = {};
+                data["userName"] = userName;
+                data["displayName"] = document.getElementById("displayName").value;
+                data["password"] = document.getElementById("password").value;
+                data["email"] = document.getElementById("email").value;
+                data["authorizationLevel"] = parseInt(document.getElementById("authorizationLevel").value);
+                data["isActive"] = document.getElementById("isActive").checked;
+                console.log(data);
+
+                let success = false;
+                try {
+                    let response = await fetch(dataUrl, {
+                        method: dataMethod,
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify(data)
+                    });
+                    let jsonData = await response.json();
+                    if (response.ok) {
+                        window.location = successUrl;
+                    }
+                } catch (err) {
+                    console.log("error: " + err);
+                }
+            }
+        </script>
+    </body>
+</html>
