@@ -1,4 +1,5 @@
 const demonService = require("../services/demonService");
+const userService = require("../services/userService");
 
 // GET list of all demons
 exports.all = async function(req, res) {
@@ -33,7 +34,7 @@ exports.create = async function(req, res) {
 // PUT update demon
 exports.update = async function(req, res) {
     if (!req.body) {
-        res.status(400).send("{\"error\": \"No request body\"}")
+        res.status(400).send("{\"error\": \"No request body\"}");
     }
     let result = await demonService.updateDemon(req.params.name, req.body);
     if ("error" in result) {
@@ -51,4 +52,54 @@ exports.delete = async function(req, res) {
 // DELETE delete all demons
 exports.purge = async function(req, res) {
     res.send(await demonService.deleteAllDemons());
+};
+
+exports.deleteUser = async function(req, res) {
+    res.send(await userService.delete(req.params.userName));
+}
+
+exports.login = async function(req, res) {
+    if (!req.body) {
+        res.status(400).send("{\"error\": \"No request body\"}");
+        return;
+    }
+    if (!("userName" in req.body)) {
+        res.status(400).send("{\"error\": \"No user name in request body\"}");
+        return;
+    }
+    if (!("password" in req.body)) {
+        res.status(400).send("{\"error\": \"No password in request body\"}");
+        return;
+    }
+    let response = await userService.authenticate(req.body.userName, req.body.password);
+    if ("error" in response) {
+        res.status(401).send(JSON.stringify(response));
+        return;
+    }
+    res.send(JSON.stringify(response));
+};
+
+exports.register = async function(req, res) {
+    if (!req.body) {
+        res.status(400).send("{\"error\": \"No request body\"}");
+        return;
+    }
+    if (!("userName" in req.body)) {
+        res.status(400).send("{\"error\": \"No user name in request body\"}");
+        return;
+    }
+    if (!("password" in req.body)) {
+        res.status(400).send("{\"error\": \"No password in request body\"}");
+        return;
+    }
+    if (!("email" in req.body)) {
+        res.status(400).send("{\"error\": \"No email in request body\"}");
+        return;
+    }
+    let response = await userService.create(req.body);
+    if ("error" in response) {
+        res.status(400).send(JSON.stringify(response));
+        return;
+    }
+    res.send(JSON.stringify(response));
 };

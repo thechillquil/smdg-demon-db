@@ -56,7 +56,7 @@ exports.updateDemon = async function(demonName, demonData) {
 
 exports.deleteDemon = async function(name) {
     await Demon.findOneAndDelete({name: name});
-    return { "status": "successful" };
+    return { "status": "success" };
 }
 
 exports.deleteAllDemons = async function() {

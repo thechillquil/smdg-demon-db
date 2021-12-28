@@ -3,12 +3,15 @@ const app = express();
 const port = 3000;
 
 const config = require('./config');
-console.log(process.cwd());
 var indexRouter = require("./routes/index");
 var apiRouter = require("./routes/api");
 var compendiumRouter = require("./routes/compendium");
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 app.use("/public", express.static("./public"));
 
@@ -17,6 +20,7 @@ app.use("/api", apiRouter);
 app.use("/compendium", compendiumRouter);
 
 var mongoose = require("mongoose");
+const { urlencoded } = require('express');
 var mongodb = config.SMDG_MONGODB_URI;
 mongoose.connect(mongodb, {useNewUrlParser: true, useUnifiedTopology: true});
 
