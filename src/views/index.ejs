@@ -23,8 +23,6 @@
                             window.location = e.target.href + "?deletedCount=" + data["data"];
                         } else {
                             var data = await response.json();
-                            console.log(response);
-                            console.log(data);
                         }
                     } catch (err) {
                         console.log("error: " + err);
@@ -32,13 +30,37 @@
                 }
             }
 
+            async function login(e) {
+                e.preventDefault();
+                try {
+                    data = {
+                        "userName": document.getElementById("userName").value,
+                        "password": document.getElementById("password").value
+                    };
+                    var response = await fetch("/api/login", {
+                        method: "post",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    if (response.ok) {
+                        var data = await response.json();
+                        document.getElementById("token").value = data["token"];
+                        document.getElementById("tokenForm").submit();
+                    }
+                } catch (err) {
+                    console.log("error: " + err);
+                }
+            }
+
             async function logout(e) {
                 e.preventDefault();
                 try {
-                    var response = await fetch("/compendium/logout", {
+                    var response = await fetch("/logout", {
                         method: "put",
                         headers: {
-                            "Content-Type": "application.json",
+                            "Content-Type": "application/json",
                             "body": "{}"
                         }
                     });
@@ -50,23 +72,53 @@
                 }
             }
 
+            function toggleMenu(e) {
+                document.querySelector(".dropdown-content").classList.toggle("show");
+            }
+
+            function hideMenus(e) {
+                if (!e.target.matches(".dropdown-toggle") && !document.querySelector(".dropdown").contains(e.target)) {
+                    document.querySelectorAll(".dropdown-content").forEach((dropdown) => {
+                        if (dropdown.classList.contains("show")) {
+                            dropdown.classList.remove("show");
+                        }
+                    })
+                }
+            }
+
             function showUploadForm(e) {
                 e.preventDefault();
-                document.getElementById("uploadForm").style.display = "block";
+                document.querySelector(".dropdown-content").classList.remove("show");
+                document.getElementById("overlay").classList.add("show");
             }
 
             function hideUploadForm(e) {
                 e.preventDefault();
-                document.getElementById("uploadForm").style.display = "none";
+                document.getElementById("overlay").classList.remove("show");
             }
 
             function addListeners() {
+                window.addEventListener("click", (e) => { hideMenus(e); });
+                document.querySelectorAll(".dropdown-toggle").forEach((dropdown) => {
+                    dropdown.addEventListener("click", (e) => { toggleMenu(e); });
+                });
                 var logoutElement = document.getElementById("logout");
                 if (logoutElement) {
                     logoutElement.addEventListener("click", (e) => { logout(e); });
-                    document.getElementById("deleteAll").addEventListener("click", (e) => { confirmDelete(e); });
-                    document.getElementById("upload").addEventListener("click", (e) => { showUploadForm(e); });
-                    document.getElementById("cancelUpload").addEventListener("click", (e) => { hideUploadForm(e); });
+                    var deleteAllElement = document.getElementById("deleteAll");
+                    if (deleteAllElement) {
+                        deleteAllElement.addEventListener("click", (e) => { confirmDelete(e); });
+                    }
+                    var uploadElement = document.getElementById("upload");
+                    if (uploadElement) {
+                        uploadElement.addEventListener("click", (e) => { showUploadForm(e); });
+                    }
+                    var cancelUploadElement = document.getElementById("cancelUpload");
+                    if (cancelUploadElement) {
+                        cancelUploadElement.addEventListener("click", (e) => { hideUploadForm(e); });
+                    }
+                } else {
+                    document.getElementById("loginButton").addEventListener("click", (e) => { login(e); });
                 }
             }
 
@@ -75,30 +127,61 @@
     </head>
     <body>
         <h1>Shin Megami Dice Game Demon Compendium</h1>
-        <%if (user === null) {%>
-            <div>
-                <a id="login" href="/compendium/login">Login</a>
+        <div class="dropdown">
+            <div class="dropdown-toggle">
+                <%if (user === null) {%>
+                    Sign in&nbsp;&#x25BC;
+                <%} else {%>
+                    <%=user.displayName%>&nbsp;&#x25BC;
+                <%}%>
             </div>
-        <%} else {%>
-            <div>
-                <span>Hello, <%=user.displayName%></span>&nbsp;<a id="logout" href="/compendium">Logout</a>
-            </div>
-            <div>
-                <span><a id="createNew" href="/compendium/demon/new">Create new demon</a></span>&nbsp;
-                <span><a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a></span>&nbsp;
-                <span><a id="upload" href="">Upload new data</a>
-                    <div id="uploadForm" class="form-popup">
-                        <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
-                            <input type="file" name="uploadFile" />
-                            <input type="submit" value="Upload" />
-                            <div>
-                                <a id="cancelUpload" href="">Cancel</a>
-                            </div>
-                        </form>                    
+            <div class="dropdown-content">
+                <%if (user === null) {%>
+                    <div>
+                        <label for="userName">User name:</label>
                     </div>
-                </span>
+                    <div>
+                        <input id="userName" />
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                    </div>
+                    <div>
+                        <input id="password" type="password" />
+                    </div>
+                    <div>
+                        <button id="loginButton">Login</button>&nbsp;<button id="cancelButton">Cancel</button>
+                    </div>
+                    <div>
+                        <a id="register" href="/users/new">Sign up</a>
+                    </div>
+                    <form id="tokenForm" method="post" action="/compendium" hidden>
+                        <input id="token" name="token"/>
+                        <input name="submitButton" type="submit"/>
+                    </form>
+                <%} else {%>
+                    <%if (user.authorizationLevel > 0) {%>
+                    <div>
+                        <a id="createNew" href="/compendium/demon/new">Create new demon</a>
+                    </div>
+                    <div>
+                        <a id="deleteAll" href="/compendium/demons/deleteall">Delete all demons</a>
+                    </div>
+                    <div>
+                        <a id="upload" href="">Upload new data</a>
+                    </div>
+                    <%}%>
+                    <%if (user.authorizationLevel > 1) {%>
+                        <div>
+                            <a id="users" href="/users">Manage users</a>
+                        </div>
+                    <%}%>
+                    <div>
+                        <a id="logout" href="/compendium">Logout</a>
+                    </div>
+                <%}%>
             </div>
-        <%}%>    
+        </div>
         <div>
             Currently known demons:
             <table>
@@ -126,5 +209,21 @@
                 </tbody>
             </table>
         </div>
+        <%if (user !== null && user.authorizationLevel > 1) {%>
+        <div id="overlay" class="overlay">
+            <div id="uploadForm" class="overlay-content">
+                <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
+                    <div>
+                        <label for="uploadFile">Select a file to upload:</label><br/>
+                        <input type="file" name="uploadFile" />
+                    </div>
+                    <div>
+                        <input type="submit" value="Upload" />
+                        <input id="cancelUpload" type="button" value="Cancel" />
+                    </div>
+                </form>                    
+            </div>
+        </div>
+        <%}%>
     </body>
 </html>

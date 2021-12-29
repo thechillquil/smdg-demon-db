@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User List</title> 
+    </head>
+    <body>
+        <div>
+            <a href="/compendium">Return to home page</a>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Display Name</th>
+                        <th>Authorization Level</th>
+                        <th>Is Active?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%data.forEach((item) => {
+                        let authDescription = "Guest";
+                        if (item.authorizationLevel > 0 && item.authorizationLevel < 2) {
+                            authDescription = "Editor";
+                        } else if (item.authorizationLevel >= 2) {
+                            authDescription = "Administrator";
+                        }%>
+                        <tr>
+                            <td><a href="/users/<%=item.userName%>/edit"><%=item.userName%></a></td>
+                            <td><%=item.displayName%></td>
+                            <td><%=authDescription%></td>
+                            <td><%=item.isActive%></td>
+                        </tr>
+                    <%});%>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

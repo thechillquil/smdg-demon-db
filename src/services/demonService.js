@@ -34,7 +34,6 @@ exports.createDemon = async function(demonToCreate) {
 };
 
 exports.bulkCreateDemons = async function(demonsToAdd) {
-    console.log("Adding " + demonsToAdd.length + " demons");
     added = 0;
     await Promise.all(demonsToAdd.map(async (demonToAdd) => {
         result = await populateNewDemon(demonToAdd);
@@ -67,7 +66,6 @@ exports.deleteAllDemons = async function() {
 async function populateNewDemon(demonToAdd) {
     try {
         let demon = new Demon(demonToAdd);
-        console.log("creating " + demon.name);
         if (demon.name === "") {
             return { "error": "New demon not created: Empty demon name."};
         }

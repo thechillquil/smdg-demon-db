@@ -4,6 +4,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 
+exports.getAllUsers = async function() {
+    let allUsers = await User.find({}).lean();
+    return { "status": "success", "users": allUsers };
+};
+
 exports.getUserByUserName = async function(name) {
     let user = await User.findOne({userName: name}).lean();
     if (user === null) {
@@ -14,11 +19,26 @@ exports.getUserByUserName = async function(name) {
 
 exports.delete = async function(name) {
     let result = await User.findOneAndDelete({userName: name});
-    console.log(result);
     return { "status": "success" };
 };
 
+exports.newUser = async function() {
+    let userCount = await User.countDocuments({isActive: true});
+    let newUser = new User();
+    return { "status": "success", "user": newUser, "userCount": userCount };
+};
+
+exports.update = async function(userName, userData) {
+    let user = await User.findOneAndUpdate({ userName: userName }, userData);
+    if (user === null) {
+        return { "error": "User " + userName + " not found" };
+    } else {
+        return { "status": "success" };
+    }
+};
+
 exports.create = async function(user) {
+    let userCount = await User.countDocuments({isActive: true});
     let existingUsers = await User.find({userName: user.userName});
     let userExists = existingUsers.length !== 0;
     if (userExists) {
@@ -32,7 +52,8 @@ exports.create = async function(user) {
                 displayName: user.displayName || user.userName,
                 password: password,
                 email: user.email.toLowerCase(),
-                authorizationLevel: 1
+                isActive: true,
+                authorizationLevel: userCount === 0 ? 2 : 0
             }
         );
         await newUser.save();
@@ -55,6 +76,7 @@ exports.authenticate = async function(userName, password) {
             userName: user.userName,
             displayName: user.displayName,
             email: user.email,
+            isActive: user.isActive,
             authorizationLevel: user.authorizationLevel
         },
         config.SMDG_SECRET_KEY,
