@@ -4,6 +4,7 @@ var router = express.Router();
 var apiController = require("../controllers/apiController");
 const authenticateToken = require("../middleware/authenticateToken");
 const authorizeEditPermissions = require("../middleware/authorizeEditPermissions");
+const authorizeAdminPermissions = require("../middleware/authorizeAdminPermissions");
 
 router.get("/demons", apiController.all);
 
@@ -21,8 +22,8 @@ router.post("/login", apiController.login);
 
 router.post("/user", apiController.register);
 
-router.put("/user/:userName", authenticateToken, apiController.updateUser);
+router.put("/user/:userName", authenticateToken, authorizeAdminPermissions, apiController.updateUser);
 
-router.delete("/user/:userName", authenticateToken, apiController.deleteUser);
+router.delete("/user/:userName", authenticateToken, authorizeAdminPermissions, apiController.deleteUser);
 
 module.exports = router;
