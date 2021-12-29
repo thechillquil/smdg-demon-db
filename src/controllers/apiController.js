@@ -110,6 +110,5 @@ exports.updateUser = async function(req, res) {
         return;
     }
     let response = await userService.update(req.params.userName, req.body);
-    console.log(response);
     res.send(JSON.stringify(response));
 };

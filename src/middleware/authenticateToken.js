@@ -34,6 +34,7 @@ module.exports = async (req, res, next) => {
                 userName: decoded.userName,
                 displayName: decoded.displayName,
                 email: decoded.email,
+                isActive: decoded.isActive,
                 authorizationLevel: decoded.authorizationLevel
             };
         } catch (err) {

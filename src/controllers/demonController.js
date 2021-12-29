@@ -1,22 +1,6 @@
 const querystring = require("querystring");
 
 const demonService = require("../services/demonService");
-const config = require("../config");
-
-exports.login = function(req, res) {
-    res.render("login");
-};
-
-exports.logout = function(req, res) {
-    if ("smdg-db-token" in req.cookies) {
-        res.cookie("smdg-db-token", "", {
-            httpOnly: true,
-            secure: config.SMDG_RUNTIME_ENVIRONMENT !== "development",
-            expires: new Date(0)
-        });
-    }
-    res.send(JSON.stringify({"status": "success"}));
-};
 
 // GET list of all demons
 exports.list =  async function(req, res) {

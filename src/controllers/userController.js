@@ -12,11 +12,18 @@ exports.list =  async function(req, res) {
 
 exports.edit = async function(req, res) {
     let user = await userService.getUserByUserName(req.params.userName);
-    res.render("editUser", { "data": user["user"], "user": req.user });
+    res.render("editUser", {
+        "data": user["user"],
+        "activeUserCount": 1,
+        "user": req.user
+    });
 };
 
 exports.add = async function(req, res) {
-    let user = await userService.newUser();
-    console.log(user);
-    res.render("editUser", { "data": user, "user": null });
+    let newUserResult = await userService.newUser();
+    res.render("editUser", {
+        "data": newUserResult["user"],
+        "activeUserCount": newUserResult["userCount"],
+        "user": null
+    });
 };

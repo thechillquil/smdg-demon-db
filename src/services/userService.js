@@ -7,7 +7,7 @@ const config = require("../config");
 exports.getAllUsers = async function() {
     let allUsers = await User.find({}).lean();
     return { "status": "success", "users": allUsers };
-}
+};
 
 exports.getUserByUserName = async function(name) {
     let user = await User.findOne({userName: name}).lean();
@@ -19,16 +19,16 @@ exports.getUserByUserName = async function(name) {
 
 exports.delete = async function(name) {
     let result = await User.findOneAndDelete({userName: name});
-    console.log(result);
     return { "status": "success" };
 };
 
 exports.newUser = async function() {
-    return new User();
+    let userCount = await User.countDocuments({isActive: true});
+    let newUser = new User();
+    return { "status": "success", "user": newUser, "userCount": userCount };
 };
 
 exports.update = async function(userName, userData) {
-    console.log(userName, userData);
     let user = await User.findOneAndUpdate({ userName: userName }, userData);
     if (user === null) {
         return { "error": "User " + userName + " not found" };
@@ -38,6 +38,7 @@ exports.update = async function(userName, userData) {
 };
 
 exports.create = async function(user) {
+    let userCount = await User.countDocuments({isActive: true});
     let existingUsers = await User.find({userName: user.userName});
     let userExists = existingUsers.length !== 0;
     if (userExists) {
@@ -52,7 +53,7 @@ exports.create = async function(user) {
                 password: password,
                 email: user.email.toLowerCase(),
                 isActive: true,
-                authorizationLevel: 0
+                authorizationLevel: userCount === 0 ? 2 : 0
             }
         );
         await newUser.save();

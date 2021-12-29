@@ -14,8 +14,19 @@
     <body>
         <%let isCreating = data.userName === "";%>
         <div>
-            <a id="save" href="/users">Save</a>&nbsp;<a href="/users">Cancel</a>
+            <% let returnUrl = isCreating ? "/compendium" : "/users";%>
+            <a id="save" href="<%=returnUrl%>">Save</a>&nbsp;<a href="<%=returnUrl%>">Cancel</a>
         </div>
+        <%if (isCreating && activeUserCount === 0) {%>
+            <div>
+                <span>
+                    No users have been defined yet for this database. The first user will be
+                    created with administrative privileges. Future users will be created with
+                    guest privileges, and will need to have their privileges set by a user
+                    with administrative privileges.
+                </span>
+            </div>
+        <%}%>
         <div>
             <%if (isCreating) {%>
                 <label for="userName">User Name:</label>&nbsp;<input id="userName" />
@@ -32,43 +43,43 @@
                 <label for="password">Password:</label>&nbsp;<input id="password" type="password" /><br/>
                 <label for="confirmPassword">Confirm Password:</label>&nbsp;<input id="confirmPassword" type="password" />
             <%} else {%>
-                <input id="password" value="<%=data.password%>" />
+                <input id="password" value="<%=data.password%>" hidden />
             <%}%>    
         </div>
         <div>
             <label for="email">Email Address:</label>&nbsp;<input id="email" value="<%=data.email%>" />
         </div>
-        <%let isHidden = isCreating ? " hidden" : ""%>
-        <div<%=isHidden%>>
+        <%if (!isCreating) {%>
+        <div<>
             <label for="authorizationLevel">Authorization Level</label>&nbsp;
             <select id="authorizationLevel">
                 <%let authLevels = ["Guest", "Editor", "Administrator"];
                 for (var i = 0; i < authLevels.length; i++) {
-                    let selected = (data.authorizationLevel === authLevels[i]) ? " selected" : "";
+                    let selected = (data.authorizationLevel === i) ? " selected" : "";
                     %><option value="<%=i%>"<%=selected%>><%=authLevels[i]%></option><%
                 }%>
             </select>
         </div>
-        <div<%=isHidden%>>
+        <div>
             <%let isChecked = data.isActive ? " checked" : "";%>
             <label for="isActive">Is active?</label><input id="isActive" type="checkbox"<%=isChecked%> />
         </div>
+        <%}%>
         <script>
             async function submitChanges(event) {
                 event.preventDefault();
                 let successUrl = event.target.href;
-                let displayName = document.getElementById("displayName").value;
-                if (displayName === "") {
+                let userName = document.getElementById("userName").value;
+                if (userName === "") {
                     // TODO: Create error validation display
                     return;
                 }
-                let userName = document.getElementById("userName").value;
                 <%if (isCreating) {%>
                 let dataMethod = "POST";
                 let dataUrl = "/api/user";
                 <%} else {%>
-                let dataUrl = "/api/user/" + userName;
                 let dataMethod = "PUT";
+                let dataUrl = "/api/user/" + userName;
                 <%}%>
                 
                 let data = {};
@@ -76,11 +87,11 @@
                 data["displayName"] = document.getElementById("displayName").value;
                 data["password"] = document.getElementById("password").value;
                 data["email"] = document.getElementById("email").value;
+                <%if (!isCreating) {%>
                 data["authorizationLevel"] = parseInt(document.getElementById("authorizationLevel").value);
                 data["isActive"] = document.getElementById("isActive").checked;
-                console.log(data);
+                <%}%>
 
-                let success = false;
                 try {
                     let response = await fetch(dataUrl, {
                         method: dataMethod,
