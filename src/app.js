@@ -1,12 +1,13 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = 3000;
+const path = require("path");
 
-const config = require('./config');
-var indexRouter = require("./routes/index");
-var apiRouter = require("./routes/api");
-var compendiumRouter = require("./routes/compendium");
-var userRouter = require("./routes/users");
+const config = require("./config");
+const indexRouter = require("./routes/index");
+const apiRouter = require("./routes/api");
+const compendiumRouter = require("./routes/compendium");
+const userRouter = require("./routes/users");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,22 +15,23 @@ app.use(express.urlencoded({ extended: true }));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-app.use("/public", express.static("./public"));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
 app.use("/compendium", compendiumRouter);
 app.use("/users", userRouter);
 
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const { urlencoded } = require('express');
-var mongodb = config.SMDG_MONGODB_URI;
+const mongodb = config.SMDG_MONGODB_URI;
 mongoose.connect(mongodb, {useNewUrlParser: true, useUnifiedTopology: true});
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.listen(port, function() {
   console.log(`Example app listening on port ${port}!`)
