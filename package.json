@@ -12,9 +12,10 @@
   },
   "name": "smdg-demon-db",
   "description": "Automation of the SMDG TTRPG system's Demon Compendium for use with Roll20 and other software.",
-  "version": "1.0.0",
-  "main": "app.js",
+  "version": "0.0.1",
+  "main": "src/app.js",
   "scripts": {
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +26,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/thechillquil/smdg-demon-db/issues"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "homepage": "https://github.com/thechillquil/smdg-demon-db#readme"
 }
