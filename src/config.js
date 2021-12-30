@@ -11,6 +11,9 @@ if (!("error" in result)) {
         if (key.startsWith("SMDG")) {
             config[key] = process.env[key];
         }
+        if (key === "PORT") {
+            config["SMDG_PORT"] = process.env[key];
+        }
     }
 }
 
