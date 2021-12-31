@@ -2,7 +2,7 @@ const dotenv = require("dotenv")
 
 const result = dotenv.config({ "path": __dirname + "/.env" });
 
-let config;
+let config = {};
 
 if (!("error" in result)) {
     config = result.parsed;
