@@ -1,4 +1,4 @@
-var Demon = require("../models/demon");
+const Demon = require("../models/demon");
 
 exports.getAllDemons = async function() {
     let demons = await Demon.find()

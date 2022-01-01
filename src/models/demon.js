@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var Schema = mongoose.Schema;
-var DemonSchema = new Schema({
+const Schema = mongoose.Schema;
+const DemonSchema = new Schema({
   name: {type: String, required: true, unique: true, default: ""},
   displayName: {type: String, default: ""},
   level: {type: Number, default: 0},

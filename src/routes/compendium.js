@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const multer = require("multer");
 const uploader = multer({ storage: multer.memoryStorage({}) });
 const authenticateToken = require("../middleware/authenticateToken");
 const authorizeEditPermissions = require("../middleware/authorizeEditPermissions");
 
-var demonController = require("../controllers/demonController");
+const demonController = require("../controllers/demonController");
 
 router.get("/", authenticateToken, demonController.list);
 

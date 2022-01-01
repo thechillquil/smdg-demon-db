@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var apiController = require("../controllers/apiController");
+const apiController = require("../controllers/apiController");
 const authenticateToken = require("../middleware/authenticateToken");
 const authorizeEditPermissions = require("../middleware/authorizeEditPermissions");
 const authorizeAdminPermissions = require("../middleware/authorizeAdminPermissions");
