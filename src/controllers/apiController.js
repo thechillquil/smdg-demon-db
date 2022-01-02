@@ -8,9 +8,6 @@ exports.all = async function(req, res) {
         res.status(404).send(JSON.stringify(result));
         return;
     }
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.send(JSON.stringify(result["demons"]));
 };
 
@@ -21,9 +18,6 @@ exports.retrieve = async function(req, res) {
         res.status(404).send(JSON.stringify(result));
         return;
     }
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.send(JSON.stringify(result["demon"]));
 };
 
