@@ -19,6 +19,9 @@ exports.getUserByUserName = async function(name) {
 
 exports.delete = async function(name) {
     let result = await User.findOneAndDelete({userName: name});
+    if (result === null) {
+        return { "error": "User " + name + " does not exist" };
+    }
     return { "status": "success" };
 };
 
@@ -69,7 +72,7 @@ exports.authenticate = async function(userName, password) {
         return { "error": "No user with user name " + userName + " found" };
     }
     if (!(await bcrypt.compare(password, user.password))) {
-        return { "error": "Password for user " + userName + "does not match" };
+        return { "error": "Password for user " + userName + " does not match" };
     }
     let token = jwt.sign(
         {

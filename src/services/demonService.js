@@ -5,7 +5,7 @@ exports.getAllDemons = async function() {
         .sort({ level: "asc", name: "asc" })
         .populate({ path: "evolvesToReference", select: "displayName name" })
         .lean();
-    if (demons === null) {
+    if (demons.length === 0) {
         return { "error": "No demons found" };
     }
     return { "status": "success", "demons": demons };
@@ -54,7 +54,10 @@ exports.updateDemon = async function(demonName, demonData) {
 };
 
 exports.deleteDemon = async function(name) {
-    await Demon.findOneAndDelete({name: name});
+    let result = await Demon.findOneAndDelete({name: name});
+    if (result === null) {
+        return { "error": "Demon " + name + " does not exist" };
+    }
     return { "status": "success" };
 }
 
@@ -72,7 +75,7 @@ async function populateNewDemon(demonToAdd) {
         existingDemons = await Demon.find({name: demon.name});
         let exists = existingDemons.length !== 0;
         if (exists) {
-            return { "error": "Demon '" + demon.name + "' already exists." };
+            return { "error": "Demon '" + demon.name + "' already exists" };
         } else {
             await demon.save();
             return { "status": "success" };
