@@ -401,6 +401,67 @@
       "background": "Cait Sith is a Fairy that takes the form of a cat. Its name means \"fairy cat.\" The Cait Sith can converse in human tongues and walk on two legs, making no sound as it moves. It normally lives as a cat that travels back and forth between the cat kingdom and the human world. It has a white star-shaped mark on its chest. The Cait Sith appears in Irish and Scottish legends and served as the model for Puss-in-Boots."
     },
     {
+      "name": "erthys",
+      "displayName": "Erthys",
+      "level": 2,
+      "arcana": "World",
+      "alignment": "Neutral Good",
+      "size": "Medium",
+      "personality": "Cosmic, Stubborn, Wise",
+      "evolvesTo": null,
+      "primaryElement": "Electric",
+      "HP": 45,
+      "SP": 29,
+      "movement": 30,
+      "movementModifier": "hover",
+      "itemizedInto": "Chaos Stone",
+      "itemizedCategory": "Rare, Accessory",
+      "knowledge": 3,
+      "guts": 3,
+      "proficiency": 3,
+      "empathy": 3,
+      "charm": 3,
+      "strength": 4,
+      "magic": 4,
+      "endurance": 4,
+      "agility": 4,
+      "luck": 4,
+      "weaknesses": [
+        "Wind"
+      ],
+      "resistances": [],
+      "blocks": [],
+      "repels": [],
+      "drains": [
+        "Electric"
+      ],
+      "traits": [
+        {
+          "name": "Fortify Spirit",
+          "description": "Your will is undeterred by afflictions. Dazzler, Makajama, Dormina, Pulinpa, Evil Touch, Ominous Words, Taunt, and Marin Karin type Skills have disadvantage against you."
+        },
+        {
+          "name": "Elemental Bloodline (Electric)",
+          "description": "When you gain this Trait, choose Fire, Ice, Electric, Wind, Psychic, Nuke, Bless, or Curse. The Spell Point cost of Skills that are of the chosen type is halved (min 1)"
+        }
+      ],
+      "skills": [
+        {
+          "name": "Basic Melee Attack",
+          "description": "Melee attack: -5 to hit, range 5 ft., one target. Hit: 1d6 + 2 physical damage."
+        },
+        {
+          "name": "Elec Dance (10 SP, 2 actions)",
+          "description": "Thunderbolts and electrical flashes surround your hands, allowing you to perform a vicious attack rush. Make three melee attacks against a creature within range (10 feet). The first time an attack hits, each subsequent attack with this Skill uses the same attack roll result as that hit. For each hit, the creature receives 1d8 + 2 electric damage"
+        },
+        {
+          "name": "Dormina (8 SP, 1 action)",
+          "description": "Soft ripples froth below the foe, attempting to sap their strength into exhaustion. Make a ranged attack against a creature within range (60 feet). On a hit, if the result of each d6 is 2 or higher, the target is inflicted with Sleep (see “Conditions”)."
+        }
+      ],
+      "background": "Erthys likely based on Earth Elementals, elementals formed from the element of earth, or spirits of earth. A Earth Elemental controls one of the four prime elements that compose the world. Erthys is composed of \"dryness\" and \"cold\" essences, the basic components of destruction. Earth Elementals embody the power of earth. Unlike Gnomes, which can be seen in physical forms, earth elementals are said to be invisible spirits to human eyes.\n"
+    },
+    {
       "name": "genbu",
       "displayName": "Genbu",
       "level": 2,
@@ -1126,6 +1187,95 @@
       "background": "The Obariyon is a Japanese \"piggyback demon\" from local folklore. While a person is walking along a woodland or grassy path, the Obariyon may jump out and attach itself to their back. While it cannot be seen, its weight can be felt by the person, and it becomes harder to walk. The Obariyon cannot be easily removed without the use of magic, but it is said if you can remove it and take it home, it will turn into many valuable gold coins."
     },
     {
+      "name": "regent",
+      "displayName": "Regent",
+      "level": 3,
+      "arcana": "Emperor",
+      "alignment": "True Neutral",
+      "size": "Large",
+      "personality": "Groaning, Cosmic, Timid",
+      "evolvesTo": null,
+      "primaryElement": "Almighty",
+      "HP": 54,
+      "SP": 38,
+      "movement": 30,
+      "movementModifier": "hover",
+      "itemizedInto": "Regent",
+      "itemizedCategory": "Rare, Accessory",
+      "knowledge": 3,
+      "guts": 3,
+      "proficiency": 3,
+      "empathy": 3,
+      "charm": 3,
+      "strength": 4,
+      "magic": 4,
+      "endurance": 4,
+      "agility": 4,
+      "luck": 4,
+      "weaknesses": [
+        "Psychic",
+        "Nuke"
+      ],
+      "resistances": [
+        "Physical",
+        "Gun",
+        "Fire",
+        "Ice",
+        "Electric",
+        "Wind",
+        "Bless",
+        "Curse"
+      ],
+      "blocks": [],
+      "repels": [],
+      "drains": [],
+      "traits": [
+        {
+          "name": "Skillful Technique",
+          "description": ""
+        },
+        {
+          "name": "Soul Chain",
+          "description": ""
+        }
+      ],
+      "skills": [
+        {
+          "name": "Agi",
+          "description": ""
+        },
+        {
+          "name": "Bufu",
+          "description": ""
+        },
+        {
+          "name": "Zio",
+          "description": ""
+        },
+        {
+          "name": "Garu",
+          "description": ""
+        },
+        {
+          "name": "Psi",
+          "description": ""
+        },
+        {
+          "name": "Frei",
+          "description": ""
+        },
+        {
+          "name": "Kouha",
+          "description": ""
+        },
+        {
+          "name": "Eiha",
+          "description": ""
+        }
+      ],
+      "background": "The Regent Diamond, also known as Le Régent and the Pitt Diamond, is a 141 carat diamond considered to be the most beautiful and purest in the world. Like Koh-i-Noor, it was possibly mined in Kollur Mine, India. After many attempts to sell it to European royalty, including Louis XIV, it was purchased by the French Regent Philippe II, Duke of Orléans in 1717. It has been used by the likes of Louis XV, Marie Antoinette, and Napoleon Bonaparte. Presently, it remains in the French Royal Treasury at the Louvre. Its value is estimated at $61,440,000 USD.\n\nDue to numerous scandals, and the misfortune of those who have been in possession of the stone, the Regent Diamond is said to be cursed.\n"
+    },
+    {
       "name": "slime",
       "displayName": "Slime",
       "level": 3,
@@ -1187,6 +1337,67 @@
         }
       ],
       "background": "A slime, also commonly called ooze, are common types of monsters in many fantasy role-play games. True to their name, they don't usually have any distinct shape and appear as large masses of gelatinous fluid. Slimes and oozes vary between mediums, with some being intelligent and capable of assuming basic shapes with others being nothing more than brainless piles of goo that dissolve whatever matter becomes enveloped by their bodies.\n\nLike oozes, many slimes dwell underground, and most secrete an acid from their skin that dissolves flesh and other materials rapidly. In D&D, slimes are essentially blind, but more than make up for that with an ability called \"blindsight,\" which allows them to discern nearby objects and creatures without needing to see them visually."
+    },
+    {
+      "name": "aeros",
+      "displayName": "Aeros",
+      "level": 4,
+      "arcana": "World",
+      "alignment": "Neutral Good",
+      "size": "Medium",
+      "personality": "Cosmic, Caring, Wise",
+      "evolvesTo": null,
+      "primaryElement": "Wind",
+      "HP": 63,
+      "SP": 47,
+      "movement": 30,
+      "movementModifier": "hover",
+      "itemizedInto": "Chaos Stone",
+      "itemizedCategory": "Rare, Accessory",
+      "knowledge": 3,
+      "guts": 3,
+      "proficiency": 3,
+      "empathy": 3,
+      "charm": 3,
+      "strength": 4,
+      "magic": 4,
+      "endurance": 4,
+      "agility": 4,
+      "luck": 4,
+      "weaknesses": [
+        "Electric"
+      ],
+      "resistances": [],
+      "blocks": [],
+      "repels": [],
+      "drains": [
+        "Electric"
+      ],
+      "traits": [
+        {
+          "name": "Fortify Spirit",
+          "description": "Your will is undeterred by afflictions. Dazzler, Makajama, Dormina, Pulinpa, Evil Touch, Ominous Words, Taunt, and Marin Karin type Skills have disadvantage against you."
+        },
+        {
+          "name": "Elemental Bloodline (Wind)",
+          "description": "When you gain this Trait, choose Fire, Ice, Electric, Wind, Psychic, Nuke, Bless, or Curse. The Spell Point cost of Skills that are of the chosen type is halved (min 1)."
+        }
+      ],
+      "skills": [
+        {
+          "name": "Basic Melee Attack",
+          "description": "Melee attack: -5 to hit, range 5 ft., one target. Hit: 1d6 + 2 physical damage."
+        },
+        {
+          "name": "Force Dance (10 SP, 2 actions)",
+          "description": "Thunderous sonic booms make each of your blows cause minor concussive damage on impact. Make three melee attacks against a creature within range (10 feet). The first time an attack hits, each subsequent attack with this Skill uses the same attack roll result as that hit. For each hit, the creature receives 1d8 + 2 wind damage."
+        },
+        {
+          "name": "Shibaboo (8 SP, 1 action)",
+          "description": "A simple arcane hex that uses adhesive tendrils of magic to restrict targets. Make a ranged attack against a creature within range (60 feet). On a hit, until the end of your next turn, the creature’s movement is reduced to 0 feet. If the creature is flying, it falls to the ground. If the creature receives damage from flying this way, they are Downed (see “Conditions”). Inflicting Downed on a target this way grants a One More."
+        }
+      ],
+      "background": "Aeros are likely based on air elementals, elementals formed from the element of air, or spirits of wind. An air elemental controls one of the four prime elements that compose the world. It is a fusion of \"heat\" and \"moist\" essences, forming the basis for an exponential energy increase. In some sources, air elementals were said to be worshipped as gods of wind at times, but others believe them to be diffused sylphs."
     },
     {
       "name": "ame-no-uzume",
@@ -1742,6 +1953,67 @@
         }
       ],
       "background": "In Greek mythology, Orpheus was the son of Thracian king Oeagrus and the muse Calliope (some versions have Orpheus' father as the god Apollo). Apollo, fond of Orpheus, gave him a small golden lyre, which he quickly mastered. Taught to sing verses by his mother, Orpheus was so skilled at making music that he was called \"Master of Strings\" and \"Father of Songs,\" capable of such music that even rocks and animals would be compelled to dance.\n\nThis version of Orpheus, although bearing the same concept as the male counterpart, now sports longer brown hair, a golden-colored torso instead of a platinum one the male Orpheus adorns and a giant heart-shaped lyre."
+    },
+    {
+      "name": "aquans",
+      "displayName": "Aquans",
+      "level": 5,
+      "arcana": "Chariot",
+      "alignment": "Neutral Good",
+      "size": "Medium",
+      "personality": "Cosmic, Eerie, Wise",
+      "evolvesTo": null,
+      "primaryElement": "Ice",
+      "HP": 82,
+      "SP": 56,
+      "movement": 30,
+      "movementModifier": "hover",
+      "itemizedInto": "Chaos Stone",
+      "itemizedCategory": "Rare, Accessory",
+      "knowledge": 3,
+      "guts": 3,
+      "proficiency": 3,
+      "empathy": 4,
+      "charm": 3,
+      "strength": 0,
+      "magic": 0,
+      "endurance": 6,
+      "agility": 0,
+      "luck": 0,
+      "weaknesses": [
+        "Fire"
+      ],
+      "resistances": [],
+      "blocks": [],
+      "repels": [],
+      "drains": [
+        "Ice"
+      ],
+      "traits": [
+        {
+          "name": "Fortify Spirit",
+          "description": "Fortify Spirit. Your will is undeterred by afflictions. Dazzler, Makajama, Dormina, Pulinpa, Evil Touch, Ominous Words, Taunt, and Marin Karin type Skills have disadvantage against you."
+        },
+        {
+          "name": "Elemental Bloodline (Ice)",
+          "description": "When you gain this Trait, choose Fire, Ice, Electric, Wind, Psychic, Nuke, Bless, or Curse. The Spell Point cost of Skills that are of the chosen type is halved (min 1)."
+        }
+      ],
+      "skills": [
+        {
+          "name": "Basic Melee Attack",
+          "description": "Melee attack: -5 to hit, range 5 ft., one target. \nHit: 1d6 + 2 physical damage"
+        },
+        {
+          "name": "Ice Dance (10 SP, 2 actions)",
+          "description": "A twirling, elegant spiral of frozen energy lashes out from you. Make three melee attacks against a creature within range (10 feet). The first time an attack hits, each subsequent attack with this Skill uses the same attack roll result as that hit. For each hit, the creature receives 1d8 + 2 ice damage."
+        },
+        {
+          "name": "Dia (8 SP, 1 action)",
+          "description": "Warm, soft green glow stitches minor wounds on an ally. Choose a creature within range (90 feet). That creature regains 1d8 + 2 hit points."
+        }
+      ],
+      "background": "Aquans are likely based on Water Elementals, elementals formed from the element of water, or spirits of water. A Water Elemental controls one of the four prime elements that compose the world. According to Aristotle, an Aquans is composed of \"cold\" and \"moist\" essences. Water, one of the four elements defined by the alchemist Paracelsus, is ruled by Undine, who is said to be the form that they achieve when they mature.\n"
     },
     {
       "name": "archangel",
@@ -2687,6 +2959,67 @@
         }
       ],
       "background": "The Zhu Que, also known as Vermilion Bird of the South or simply the Vermilion Bird, is one of the Four Symbols of the Chinese constellations (Si Xiang) along with Bai Hu, Xuan Wu and Qing Long. According to Wu Xing, the Taoist five-elemental system, it represents the fire element, the direction south and the season summer correspondingly. It is also known as Suzaku in Japan and Jujak in Korea. Suzaku is an elegant and noble bird in both appearance and behavior, it is very selective in what it eats and where it perches, with its feathers in many different hues of Vermilion."
+    },
+    {
+      "name": "flaemis",
+      "displayName": "Flaemis",
+      "level": 7,
+      "arcana": "World",
+      "alignment": "Neutral Good",
+      "size": "Medium",
+      "personality": "Cosmic, Erratic, Wise",
+      "evolvesTo": null,
+      "primaryElement": "Fire",
+      "HP": 104,
+      "SP": 74,
+      "movement": 30,
+      "movementModifier": "hover",
+      "itemizedInto": "Chaos Stone",
+      "itemizedCategory": "Rare, Acessory",
+      "knowledge": 3,
+      "guts": 3,
+      "proficiency": 3,
+      "empathy": 4,
+      "charm": 3,
+      "strength": 4,
+      "magic": 4,
+      "endurance": 6,
+      "agility": 4,
+      "luck": 4,
+      "weaknesses": [
+        "Ice"
+      ],
+      "resistances": [],
+      "blocks": [],
+      "repels": [],
+      "drains": [
+        "Fire"
+      ],
+      "traits": [
+        {
+          "name": "Fortify Spirit",
+          "description": "Your will is undeterred by afflictions. Dazzler, Makajama, Dormina, Pulinpa, Evil Touch, Ominous Words, Taunt, and Marin Karin type Skills have disadvantage against you."
+        },
+        {
+          "name": "Elemental Bloodline (Fire)",
+          "description": "When you gain this Trait, choose Fire, Ice, Electric, Wind, Psychic, Nuke, Bless, or Curse. The Spell Point cost of Skills that are of the chosen type is halved (min 1)."
+        }
+      ],
+      "skills": [
+        {
+          "name": "Basic Melee Attack",
+          "description": "Melee attack: -4 to hit, range 5 ft., one target. Hit: 1d6 + 2 physical damage."
+        },
+        {
+          "name": "Fire Dance (10 SP, 2 actions)",
+          "description": "You swing about, striking a foe with a conflagration of embers. Make three melee attacks against a creature within range (10 feet). The first time an attack hits, each subsequent attack with this Skill uses the same attack roll result as that hit. For each hit, the creature receives 1d8 + 2 fire damage."
+        },
+        {
+          "name": "Pulinpa (8 SP, 1 action)",
+          "description": "Tendrils of bewildering magic pierce a foe’s mind to unsettle them. Make a ranged attack against a creature within range (60 feet). On a hit, if the result of each d6 is 2 or higher, the target is inflicted with Confuse (see “Conditions”)."
+        }
+      ],
+      "background": "Flaemis is likely based on Fire Elementals, elementals formed from the element of fire, or spirits of fire. A Fire Elemental controls one of the four prime elements that compose the world. It is a fusion composed of \"dryness\" and \"heat\" essences. The ancient Greek concepts of the four basic elements significantly influenced early astrology.\n\nIt is said that every flame contains a Fire Elemental, who feeds the flame with its breath. They also dwell in places with heat, like a lamplight.\n"
     },
     {
       "name": "flauros",
