@@ -170,6 +170,9 @@
                     <div>
                         <a id="upload" href="">Upload new data</a>
                     </div>
+                    <div>
+                        <a id="download" href="/compendium/demons/download">Download demon data</a>
+                    </div>
                     <%}%>
                     <%if (user.authorizationLevel > 1) {%>
                         <div>
@@ -212,7 +215,7 @@
         <%if (user !== null && user.authorizationLevel > 1) {%>
         <div id="overlay" class="overlay">
             <div id="uploadForm" class="overlay-content">
-                <form action="/compendium/demon/upload" enctype="multipart/form-data" method="POST">
+                <form action="/compendium/demons/upload" enctype="multipart/form-data" method="POST">
                     <div>
                         <label for="uploadFile">Select a file to upload:</label><br/>
                         <input type="file" name="uploadFile" />

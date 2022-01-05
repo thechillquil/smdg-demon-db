@@ -17,7 +17,9 @@ router.get("/demon/:name", authenticateToken, demonController.details);
 
 router.get("/demon/:name/edit", authenticateToken, authorizeEditPermissions, demonController.edit);
 
-router.post("/demon/upload", authenticateToken, authorizeEditPermissions, uploader.single('uploadFile'), demonController.upload);
+router.post("/demons/upload", authenticateToken, authorizeEditPermissions, uploader.single('uploadFile'), demonController.upload);
+
+router.get("/demons/download", authenticateToken, authorizeEditPermissions, demonController.download);
 
 router.get("/demons/deleteall", authenticateToken, authorizeEditPermissions, demonController.deleteAllComplete);
 

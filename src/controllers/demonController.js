@@ -61,6 +61,27 @@ exports.upload = async function(req, res) {
     }
 };
 
+exports.download = async function(req, res) {
+    let demons = await demonService.getAllDemons();
+    demons.demons.forEach((demon) => {
+        delete demon._id;
+        delete demon.__v;
+        delete demon.evolvesToReference;
+        
+        demon.traits.forEach((trait) => {
+            delete trait._id;
+        })
+        demon.skills.forEach((skill) => {
+            delete skill._id;
+        });
+    });
+    const fileName = "demons.json";
+    const mimeType = "application/json";
+    res.setHeader("Content-Type", mimeType);
+    res.setHeader("Content-disposition", "attachment; filename=" + fileName);
+    res.send(JSON.stringify({ "demons": demons.demons }, null, 2));
+}
+
 exports.deleteAllComplete = function(req, res) {
     res.render("deleteAllComplete", { data: req.query.deletedCount });
 };
