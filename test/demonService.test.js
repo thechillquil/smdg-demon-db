@@ -21,11 +21,12 @@ describe('demon service', () => {
 
   it("does nothing", () => {});
 
-  it("should error on empty collection", async () => {
+  it("should not error on empty collection", async () => {
     let result = await demonService.getAllDemons();
     expect(result).toMatchObject({ 
-      error: "No demons found"
+      status: "success"
     });
+    expect(result.demons.length).toEqual(0);
   });
 
   it("should return list populated collection", async () => {

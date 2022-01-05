@@ -5,9 +5,6 @@ exports.getAllDemons = async function() {
         .sort({ level: "asc", name: "asc" })
         .populate({ path: "evolvesToReference", select: "displayName name" })
         .lean();
-    if (demons.length === 0) {
-        return { "error": "No demons found" };
-    }
     return { "status": "success", "demons": demons };
 };
 
