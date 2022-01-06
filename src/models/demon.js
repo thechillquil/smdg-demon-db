@@ -17,6 +17,7 @@ const DemonSchema = new Schema({
   movementModifier: {type: String, default: ""},
   itemizedInto: {type: String, default: ""},
   itemizedCategory: {type: String, default: ""},
+  isTreasure: {type: Boolean, default: false},
   knowledge: {type: Number, default: 0},
   guts: {type: Number, default: 0},
   proficiency: {type: Number, default: 0},
