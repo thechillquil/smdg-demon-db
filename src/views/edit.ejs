@@ -143,8 +143,10 @@
             (<label for="itemizedCategory">Category</label><input id="itemizedCategory" value="<%=data.itemizedCategory%>"/>)
         </div>
         <div>
-            <label for="treasure">Is treasure demon?</label>&nbsp;
-            <input id="treasure" type="checkbox"<%=data.isTreasure ? " checked" : ""%> />
+            <label for="isTreasure">Is treasure demon?</label>&nbsp;
+            <input id="isTreasure" type="checkbox"<%=data.isTreasure ? " checked" : ""%> /><br/>
+            <label for="isElement">Is element demon?</label>&nbsp;
+            <input id="isElement" type=checkbox<%=data.isElement ? " checked" : ""%> />
         </div>
         <div>
             <table>
@@ -303,7 +305,8 @@
                 data["personality"] = document.getElementById("personality").value;
                 data["primaryElement"] = document.getElementById("primaryElement").value;
                 data["evolvesTo"] = document.getElementById("evolvesTo").value === "" ? null : document.getElementById("evolvesTo").value;
-                data["isTreasure"] = document.getElementById("treasure").checked;
+                data["isTreasure"] = document.getElementById("isTreasure").checked;
+                data["isElement"] = document.getElementById("isElement").checked;
                 data["HP"] = parseInt(document.getElementById("HP").value);
                 data["SP"] = parseInt(document.getElementById("SP").value);
                 data["movement"] = parseInt(document.getElementById("movement").value);
