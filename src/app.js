@@ -44,5 +44,5 @@ app.set("views", path.join(__dirname, "views"));
 // Start server listening
 const port = config.SMDG_PORT || 3000;
 app.listen(port, function() {
-  console.log(`Example app listening on port ${port}!`)
+  console.log(`App listening on port ${port}!`)
 });
