@@ -18,6 +18,8 @@ router.delete("/demon/:name", authenticateToken, authorizeEditPermissions, apiCo
 
 router.delete("/demons", authenticateToken, authorizeEditPermissions, apiController.purge);
 
+router.post("/demons/fusion", authenticateToken, authorizeEditPermissions, apiController.fuse);
+
 router.post("/login", apiController.login);
 
 router.post("/user", apiController.register);

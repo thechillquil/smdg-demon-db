@@ -80,7 +80,19 @@ exports.download = async function(req, res) {
     res.setHeader("Content-Type", mimeType);
     res.setHeader("Content-disposition", "attachment; filename=" + fileName);
     res.send(JSON.stringify({ "demons": demons.demons }, null, 2));
-}
+};
+
+exports.fuse = async function(req, res) {
+    let demons = await demonService.getAllDemons();
+    let demonDisplay = [];
+    demons.demons.forEach((demon) => {
+        demonDisplay.push({
+            displayText: demon.displayName + " (level " + demon.level + " " + demon.arcana + ")",
+            value: demon.name
+        })
+    });
+    res.render("fusion", { demons: demonDisplay, user: req.user });
+};
 
 exports.deleteAllComplete = function(req, res) {
     res.render("deleteAllComplete", { data: req.query.deletedCount });
