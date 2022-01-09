@@ -12,7 +12,7 @@
   },
   "name": "smdg-demon-db",
   "description": "Automation of the SMDG TTRPG system's Demon Compendium for use with Roll20 and other software.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
