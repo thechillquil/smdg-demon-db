@@ -23,6 +23,6 @@ router.get("/demons/download", authenticateToken, authorizeEditPermissions, demo
 
 router.get("/demons/deleteall", authenticateToken, authorizeEditPermissions, demonController.deleteAllComplete);
 
-router.get("/demons/fuse", authenticateToken, authorizeEditPermissions, demonController.fuse);
+router.get("/demons/fusion", authenticateToken, authorizeEditPermissions, demonController.fuse);
 
 module.exports = router;
