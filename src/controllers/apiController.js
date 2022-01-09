@@ -112,3 +112,17 @@ exports.updateUser = async function(req, res) {
     let response = await userService.update(req.params.userName, req.body);
     res.send(JSON.stringify(response));
 };
+
+exports.fuse = async function(req, res) {
+    if (!req.body) {
+        res.status(400).send("{\"error\": \"No request body\"}");
+        return;
+    }
+    let body = req.body;
+    let result = await demonService.getFusionDemons(
+        body.inputDemons,
+        body.playerLevel,
+        body.playerArcana,
+        body.moonPhase);
+    res.send(JSON.stringify(result));
+};

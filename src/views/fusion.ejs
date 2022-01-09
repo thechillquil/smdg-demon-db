@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Fuse Demons</title>
+        <script>
+        </script>
+    </head>
+    <body>
+        <div>
+            <label for="level">Player Level:</label>&nbsp;
+            <input id="level" value="0"/>
+            <label for="arcana">Player Arcana:</label>&nbsp;
+            <select id="arcana" multiple>
+                <%let arcanaValues = [
+                    "Chariot",
+                    "Councillor",
+                    "Death",
+                    "Devil",
+                    "Emperor",
+                    "Faith",
+                    "Fool",
+                    "Fortune",
+                    "Hanged Man",
+                    "Hermit",
+                    "Hierophant",
+                    "Hunger",
+                    "Judgement",
+                    "Justice",
+                    "Lovers",
+                    "Magician",
+                    "Moon",
+                    "Priestess",
+                    "Star",
+                    "Strength",
+                    "Sun",
+                    "Temperance",
+                    "Tower",
+                    "World"
+                ];
+                arcanaValues.forEach(item => {
+                %><option value="<%=item%>"><%=item%></option><%
+                });%>
+            </select>
+            <label for="moonPhase">Moon Phase:</label>&nbsp;
+            <select id="moonPhase">
+                <option value="0" selected="selected">None</option>
+                <option value="1">Full</option>
+                <option value="2">New</option>
+                <option value="3">Half</option>
+            </select>
+        </div>
+        <div>
+            <button id="addDemon">Add demon to fuse</button>
+        </div>
+        <div id="inputs"></div>
+        <div>
+            <button id="fuse">Fuse!</button>
+        </div>
+        <div id="results"></div>
+        <script>
+            function getDemonDisplay() {
+                let demonDisplay = [];
+                <%demons.forEach((demon) => {%>
+                    demonDisplay.push({
+                        displayText: "<%=demon.displayText%>",
+                        value: "<%=demon.value%>"
+                    });
+                <%});%>
+                return demonDisplay;
+            }
+
+            function deleteFuseDemon(event) {
+                event.target.parentElement.remove();
+            }
+
+            function addFuseDemon(event) {
+                var editorElement = document.createElement("div");
+
+                var demonSelect = document.createElement("select");
+                getDemonDisplay().forEach((display) => {
+                    var optionElement = document.createElement("option");
+                    optionElement.setAttribute("value", display.value);
+                    optionElement.textContent = display.displayText;
+                    demonSelect.appendChild(optionElement);
+                });
+                editorElement.appendChild(demonSelect);
+
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.addEventListener("click", deleteFuseDemon);
+                deleteButton.setAttribute("type", "button");
+                editorElement.appendChild(deleteButton);
+
+                document.getElementById("inputs").appendChild(editorElement);
+            }
+
+            function createResultsDisplay(results) {
+                let resultWrapper = document.createElement("div");
+                let accidentPercentageElement = document.createElement("span");
+                accidentPercentageElement.textContent = 
+                    "Accident Percentage: " + results.accidentChance + 
+                    ", Affinity Tier Increases: " + results.affinityIncreases;
+                resultWrapper.appendChild(accidentPercentageElement);
+                results.demons.forEach((demon) => {
+                    console.log(demon.name);
+                    let demonLink = document.createElement("a");
+                    demonLink.setAttribute("href", "/compendium/demon/" + demon.name);
+                    demonLink.textContent = demon.displayName + " (level " + demon.level + " " + demon.arcana + ")";
+                    let demonDiv = document.createElement("div");
+                    demonDiv.appendChild(demonLink);
+                    resultWrapper.appendChild(demonDiv);
+                });
+                document.getElementById("results").appendChild(resultWrapper);
+            }
+
+            async function fuse(event) {
+                var existingResult = document.querySelector("#results div");
+                if (existingResult) {
+                    existingResult.remove();
+                }
+
+                let selectedDemons = []
+                let selectElements = document.querySelectorAll("#inputs select");
+                selectElements.forEach((element) => {
+
+                });
+                document.querySelectorAll("#inputs select").forEach((element) => {
+                    selectedDemons.push(element.value);
+                });
+
+                let playerArcana = Array.from(document.getElementById("arcana").selectedOptions).map(option => option.value);
+
+                var data = {
+                    inputDemons: selectedDemons,
+                    playerLevel: parseInt(document.getElementById("level").value),
+                    playerArcana: playerArcana,
+                    moonPhase: parseInt(document.getElementById("moonPhase").value)
+                };
+                try {
+                    console.log(JSON.stringify(data));
+                    let response = await fetch("/api/demons/fusion", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    if (response.ok) {
+                        let resultData = await response.json();
+                        if ("error" in resultData) {
+                            console.log(resultData.error);
+                        } else {
+                            createResultsDisplay(resultData.data);
+                        }
+                    }
+                } catch (err) {
+                    console.log("Error: " + err);
+                }
+            }
+
+            function addListeners() {
+                document.getElementById("addDemon").addEventListener("click", (e) => { addFuseDemon(e); });
+                document.getElementById("fuse").addEventListener("click", (e) => { fuse(e); });
+            }
+
+            window.onload = addListeners;
+        </script>
+    </body>
+</html>
