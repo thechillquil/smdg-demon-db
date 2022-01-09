@@ -96,7 +96,13 @@ exports.getFusionDemons = async function(inputDemonNames, playerLevel, playerArc
         if (demon.isTreasure) {
             inputDemons.forEach((demon) => {
                 if (!demon.isTreasure) {
-                    result.demons.push(demon.name);
+                    result.demons.push({
+                        name: demon.name,
+                        displayName: demon.displayName,
+                        level: demon.level,
+                        arcana: demon.arcana,
+                        skills: demon.skills
+                    });
                 }
             });
             return false;
@@ -129,7 +135,13 @@ exports.getFusionDemons = async function(inputDemonNames, playerLevel, playerArc
     if (hasDuplicateArcana) {
         const elementDemons = await Demon.find({ isElement: true });
         elementDemons.forEach((demon) => {
-            result.demons.push(demon.name);
+            result.demons.push({
+                name: demon.name,
+                displayName: demon.displayName,
+                level: demon.level,
+                arcana: demon.arcana,
+                skills: demon.skills
+            });
         });
 
         // NOTE: Affinity tier increasee must be set to zero, regardless
@@ -184,7 +196,13 @@ exports.getFusionDemons = async function(inputDemonNames, playerLevel, playerArc
         ]
     }).sort({ level: "asc", name: "asc" });
     filterDemons.forEach((demon) => {
-        result.demons.push(demon.name);
+        result.demons.push({
+            name: demon.name,
+            displayName: demon.displayName,
+            level: demon.level,
+            arcana: demon.arcana,
+            skills: demon.skills
+        });
     });
 
     // Calculate fusion accident chance based on moon phase.

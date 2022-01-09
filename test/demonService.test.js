@@ -260,7 +260,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["input1"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["input1"]);
   });
 
   it("should fuse many demons with inputs containing treasure demon", async () => {
@@ -269,7 +270,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0);
     expect(result.data.affinityIncreases).toEqual(1);
-    expect(result.data.demons).toEqual(["input1", "input2"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["input1", "input2"]);
   });
 
   it("should fuse demons with inputs containing duplicate arcana", async () => {
@@ -278,7 +280,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element"]);
   });
 
   it("should fuse many demons with inputs containing duplicate arcana", async () => {
@@ -287,7 +290,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element"]);
   });
 
   it("should fuse demons", async() => {
@@ -296,7 +300,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element", "input3", "low", "normal"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "input3", "low", "normal"]);
   });
 
   it("should fuse demons with arcana bonus", async() => {
@@ -305,7 +310,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element", "input3", "low", "normal", "arcana"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "input3", "low", "normal", "arcana"]);
   });
 
   it("should fuse demons with arcana bonus for multiple arcana values", async() => {
@@ -314,7 +320,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element", "input3", "low", "normal", "arcana", "other-arcana"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "input3", "low", "normal", "arcana", "other-arcana"]);
   });
 
   it("should fuse demons with multiple results in same arcana", async() => {
@@ -323,7 +330,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["duplicate", "element", "input1", "low", "normal", "arcana"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["duplicate", "element", "input1", "low", "normal", "arcana"]);
   });
 
   it("should fuse demons with moon phase full", async() => {
@@ -332,7 +340,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.1);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element", "input3", "low", "normal", "arcana", "medium"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "input3", "low", "normal", "arcana", "medium"]);
   });
 
   it("should fuse demons with moon phase new", async() => {
@@ -341,7 +350,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.025);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element", "input3", "low", "normal", "arcana", "medium"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "input3", "low", "normal", "arcana", "medium"]);
   });
 
   it("should fuse demons with moon phase half", async() => {
@@ -350,7 +360,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual(["element", "input3", "low", "normal", "arcana", "medium"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "input3", "low", "normal", "arcana", "medium"]);
   });
 
   it("should fuse many demons", async() => {
@@ -359,7 +370,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(1);
-    expect(result.data.demons).toEqual(["element", "low", "normal", "arcana", "medium"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "low", "normal", "arcana", "medium"]);
   });
 
   it("should fuse demons with moon phase full", async() => {
@@ -368,7 +380,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.1);
     expect(result.data.affinityIncreases).toEqual(1);
-    expect(result.data.demons).toEqual(["element", "low", "normal", "arcana", "medium", "high"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "low", "normal", "arcana", "medium", "high"]);
   });
 
   it("should fuse demons with moon phase new", async() => {
@@ -377,7 +390,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.025);
     expect(result.data.affinityIncreases).toEqual(1);
-    expect(result.data.demons).toEqual(["element", "low", "normal", "arcana", "medium", "high"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "low", "normal", "arcana", "medium", "high"]);
   });
 
   it("should fuse demons with moon phase half", async() => {
@@ -386,7 +400,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(1);
-    expect(result.data.demons).toEqual(["element", "low", "normal", "arcana", "medium", "high"]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual(["element", "low", "normal", "arcana", "medium", "high"]);
   });
 
   it("should return empty list if no demons match for fusing", async() => {
@@ -395,7 +410,8 @@ describe('demon service', () => {
     expect(result.status).toEqual("success");
     expect(result.data.accidentChance).toEqual(0.05);
     expect(result.data.affinityIncreases).toEqual(0);
-    expect(result.data.demons).toEqual([]);
+    let fusionDemons = result.data.demons.map(demon => demon.name);
+    expect(fusionDemons).toEqual([]);
   });
 
   it("should error if fusing too few inputs", async() => {
